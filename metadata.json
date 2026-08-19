@@ -1,0 +1,7 @@
+{
+  "name": "Blinkit Hardware - 12-Min Jobsite Delivery",
+  "description": "Hyper-local quick-commerce delivery delivering top essential hardware, plumbing, electrical fittings, fasteners, adhesives, and tools directly to job sites in 12-15 minutes.",
+  "requestFramePermissions": ["camera", "geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

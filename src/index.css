@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Hide scrollbar for horizontal chip carousels */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Leaflet map styling & hide attribution text */
+.leaflet-control-attribution,
+.leaflet-control-attribution a {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Custom leaflet animations */
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.15); opacity: 0.3; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+@keyframes pin-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes contact-wave {
+  0% { transform: scale(0.5); opacity: 0.9; }
+  100% { transform: scale(2.0); opacity: 0; }
+}
+
+.custom-dest-pin-animated {
+  animation: pin-float 2.5s ease-in-out infinite;
+}
+
+.contact-ripple-wave {
+  animation: contact-wave 1.8s cubic-bezier(0.1, 0.5, 0.8, 1) infinite;
+}
