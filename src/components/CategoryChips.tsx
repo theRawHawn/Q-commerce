@@ -2,17 +2,14 @@ import React from 'react';
 import { 
   Droplet, 
   Zap, 
-  Hammer, 
   Anchor, 
   Wrench, 
   TestTube, 
   ShieldCheck, 
   RotateCcw, 
-  Receipt,
-  Clock,
-  Filter,
   Layers,
-  ChevronRight
+  Sparkles,
+  Grid
 } from 'lucide-react';
 import { TradeCategory } from '../types';
 
@@ -29,59 +26,43 @@ export interface CategoryItem {
   id: TradeCategory;
   label: string;
   icon: any;
-  imgUrl: string;
-  bgColor: string;
 }
 
 export const CATEGORIES_DATA: CategoryItem[] = [
   {
     id: 'all',
-    label: 'All Items',
-    icon: Layers,
-    imgUrl: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=200&auto=format&fit=crop&q=80',
-    bgColor: 'bg-amber-100/70 border-amber-200'
+    label: 'All',
+    icon: Grid,
   },
   {
     id: 'plumbing',
     label: 'Plumbing',
     icon: Droplet,
-    imgUrl: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=200&auto=format&fit=crop&q=80',
-    bgColor: 'bg-blue-50 border-blue-200'
   },
   {
     id: 'electrical',
     label: 'Electrical',
     icon: Zap,
-    imgUrl: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=200&auto=format&fit=crop&q=80',
-    bgColor: 'bg-amber-50 border-amber-200'
   },
   {
     id: 'fasteners',
     label: 'Fasteners',
     icon: Anchor,
-    imgUrl: 'https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=200&auto=format&fit=crop&q=80',
-    bgColor: 'bg-slate-100 border-slate-200'
   },
   {
     id: 'adhesives',
     label: 'Adhesives',
     icon: TestTube,
-    imgUrl: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=200&auto=format&fit=crop&q=80',
-    bgColor: 'bg-rose-50 border-rose-200'
   },
   {
     id: 'tools',
     label: 'Tools & Bits',
     icon: Wrench,
-    imgUrl: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=200&auto=format&fit=crop&q=80',
-    bgColor: 'bg-emerald-50 border-emerald-200'
   },
   {
     id: 'safety',
     label: 'Safety Gear',
     icon: ShieldCheck,
-    imgUrl: 'https://images.unsplash.com/photo-1578873375969-d655f6e52292?w=200&auto=format&fit=crop&q=80',
-    bgColor: 'bg-teal-50 border-teal-200'
   }
 ];
 
@@ -89,23 +70,13 @@ export const CategoryChips: React.FC<CategoryChipsProps> = ({
   selectedCategory,
   onSelectCategory,
   onOpenRestock,
-  onOpenAiScanner,
-  isGstFilterActive = false,
-  onToggleGstFilter,
 }) => {
   return (
-    <div className="bg-white border-b border-slate-100 py-3 sm:py-4 shadow-2xs">
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 space-y-3">
+    <div className="bg-white border-b border-slate-200/70 py-3 shadow-2xs">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6">
         
-        {/* Categories Section Header */}
-        <div className="flex items-center justify-between">
-          <h2 className="text-base sm:text-lg font-black text-slate-900 tracking-tight">
-            Categories
-          </h2>
-        </div>
-
-        {/* Category Visual Cards Carousel (Reference Image 2 Style) */}
-        <div className="flex items-start gap-3 sm:gap-4 overflow-x-auto px-1 py-1 scrollbar-none">
+        {/* Un-congested Horizontal Category Icons Bar */}
+        <div className="flex items-center gap-6 sm:gap-8 overflow-x-auto px-1 py-1 scrollbar-none">
           {CATEGORIES_DATA.map((cat) => {
             const isSelected = selectedCategory === cat.id;
             const Icon = cat.icon;
@@ -114,50 +85,52 @@ export const CategoryChips: React.FC<CategoryChipsProps> = ({
               <button
                 key={cat.id}
                 onClick={() => onSelectCategory(cat.id)}
-                className="flex-shrink-0 flex flex-col items-center gap-1.5 cursor-pointer group text-center focus:outline-none w-16 sm:w-20"
+                className="flex-shrink-0 flex flex-col items-center gap-1.5 cursor-pointer group focus:outline-none transition select-none"
               >
-                {/* Visual Rounded Square Card with Image and Icon overlay */}
+                {/* Category Icon Pill */}
                 <div 
-                  className={`w-16 h-16 sm:w-20 sm:h-20 rounded-2xl p-1.5 flex items-center justify-center transition-all duration-200 relative overflow-hidden border ${
+                  className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center transition-all duration-200 relative ${
                     isSelected
-                      ? 'bg-emerald-100/90 border-2 border-emerald-600 shadow-sm'
-                      : `${cat.bgColor} hover:shadow-2xs`
+                      ? 'bg-slate-950 text-amber-300 shadow-md scale-105'
+                      : 'bg-slate-100/90 text-slate-800 hover:bg-slate-200/80 border border-slate-200/60'
                   }`}
                 >
-                  <img 
-                    src={cat.imgUrl} 
-                    alt={cat.label}
-                    referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover rounded-xl opacity-90 group-hover:opacity-100 transition"
-                  />
-                  <div className="absolute top-1 right-1 w-5 h-5 rounded-full bg-white/95 backdrop-blur-xs flex items-center justify-center shadow-2xs">
-                    <Icon className="w-2.5 h-2.5 text-slate-800" />
-                  </div>
+                  <Icon className={`w-5 h-5 sm:w-6 sm:h-6 ${isSelected ? 'text-amber-300' : 'text-slate-800'}`} />
                 </div>
 
-                {/* Label */}
-                <span className={`text-[11px] sm:text-xs tracking-tight font-extrabold w-full text-center truncate block ${
-                  isSelected ? 'text-emerald-900 font-black' : 'text-slate-700'
-                }`}>
+                {/* Category Label */}
+                <span 
+                  className={`text-xs font-bold tracking-tight text-center whitespace-nowrap transition ${
+                    isSelected ? 'text-slate-950 font-black' : 'text-slate-600 group-hover:text-slate-900'
+                  }`}
+                >
                   {cat.label}
                 </span>
+
+                {/* Active Underline Indicator */}
+                <div 
+                  className={`h-1 rounded-full transition-all duration-200 ${
+                    isSelected ? 'w-6 bg-slate-950' : 'w-0 bg-transparent'
+                  }`}
+                />
               </button>
             );
           })}
 
-          {/* Quick Reorder & History Tile */}
+          {/* Reorder / History Tab */}
           <button
             onClick={onOpenRestock}
-            className="flex-shrink-0 flex flex-col items-center gap-1.5 cursor-pointer group text-center w-16 sm:w-20"
+            className="flex-shrink-0 flex flex-col items-center gap-1.5 cursor-pointer group focus:outline-none transition select-none"
           >
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl p-1.5 bg-emerald-50 border border-emerald-200 flex flex-col items-center justify-center hover:bg-emerald-100/70 transition shadow-2xs">
-              <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center mb-1">
-                <RotateCcw className="w-4 h-4" />
-              </div>
-              <span className="text-[9px] font-black text-emerald-900 uppercase">Reorder</span>
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-emerald-50 text-emerald-800 border border-emerald-200/80 flex items-center justify-center hover:bg-emerald-100 transition shadow-2xs">
+              <RotateCcw className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-800" />
             </div>
-            <span className="text-[11px] sm:text-xs font-extrabold text-slate-700 w-full text-center truncate block">History</span>
+            <span className="text-xs font-bold text-slate-600 group-hover:text-slate-900 tracking-tight whitespace-nowrap">
+              Reorder
+            </span>
+            <div className="h-1 w-0 bg-transparent rounded-full" />
           </button>
+
         </div>
 
       </div>

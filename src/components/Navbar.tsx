@@ -3,10 +3,10 @@ import {
   Search, 
   ChevronDown, 
   Camera, 
-  Building2, 
-  Clock,
-  Zap,
-  MapPin
+  Mic,
+  Store,
+  User,
+  Sparkles
 } from 'lucide-react';
 import { JobSiteLocation, CustomerProfile } from '../types';
 import { calculateDynamicDeliveryEta } from '../utils/deliveryEta';
@@ -57,275 +57,144 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   // Real-time dynamic delivery ETA calculation based on current jobsite coordinates
   const liveEta = calculateDynamicDeliveryEta(jobSite.coordinates);
-
-  const isB2B = customerProfile?.gstProfile?.isB2BEnabled && customerProfile?.gstProfile?.gstin;
   const userInitial = customerProfile.name ? customerProfile.name.charAt(0).toUpperCase() : 'R';
 
   return (
-    <header className="sticky top-0 z-40 bg-white border-b border-slate-200/80 shadow-2xs">
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 py-2.5 sm:py-3">
+    <header className="sticky top-0 z-40 bg-gradient-to-b from-[#FFE600] via-[#FFEB3B] to-[#FFF275] border-b border-amber-300/80 shadow-xs text-slate-900 transition-all">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 pt-3 pb-3 sm:pb-3.5 space-y-2.5 sm:space-y-3">
         
-        {/* ================= MOBILE HEADER (<768px) ================= */}
-        <div className="md:hidden space-y-2">
+        {/* Top Row: Logo, Delivery ETA, Address & Profile */}
+        <div className="flex items-center justify-between gap-3">
           
-          {/* Row 1: Logo & Delivery ETA on Left, Profile Avatar on Right */}
-          <div className="flex items-center justify-between gap-2">
+          {/* Left Block: Logo + ETA + Location */}
+          <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
             
-            {/* Logo */}
+            {/* Blinkit Logo */}
             <div 
               onClick={() => onSearchChange('')}
               className="flex items-center gap-1 cursor-pointer select-none shrink-0"
+              title="Home / Reset Search"
             >
-              <div className="flex items-baseline font-black text-lg tracking-tighter text-slate-900">
+              <div className="flex items-baseline font-black text-xl sm:text-2xl tracking-tighter text-slate-950">
                 <span>blink</span>
-                <span className="text-emerald-600">it</span>
+                <span className="text-emerald-700">it</span>
               </div>
-            </div>
-
-            {/* Delivery ETA & Address Pill */}
-            <div 
-              onClick={onOpenLocationModal}
-              className="cursor-pointer group flex items-center gap-2 pl-2.5 border-l border-slate-200 min-w-0 flex-1 transition select-none"
-              title="Change Jobsite Delivery Address"
-            >
-              <div className="min-w-0 flex-1 leading-tight">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[10px] font-extrabold text-emerald-700 uppercase tracking-tight">
-                    ⚡ {liveEta.etaMins} MINS
-                  </span>
-                  <span className="text-[8px] font-extrabold text-emerald-900 bg-emerald-100 px-1.5 py-0.2 rounded-full uppercase tracking-wider shrink-0">
-                    {liveEta.badge}
-                  </span>
-                </div>
-                
-                {/* Address line */}
-                <div className="text-[10.5px] text-slate-700 font-bold truncate mt-0.5 group-hover:text-emerald-700 flex items-center gap-0.5">
-                  <span className="truncate">{jobSite.floorUnit || jobSite.address}</span>
-                  <ChevronDown className="w-3 h-3 shrink-0 text-slate-400 group-hover:text-emerald-700 transition" />
-                </div>
-              </div>
-            </div>
-
-            {/* Profile Avatar Button */}
-            <div className="flex items-center shrink-0 ml-1">
-              <button
-                onClick={onOpenProfileModal}
-                className="w-7 h-7 rounded-full bg-slate-900 text-white flex items-center justify-center text-[11px] font-black hover:bg-slate-800 transition cursor-pointer shadow-2xs"
-                title="Account & Profile"
-              >
-                {userInitial}
-              </button>
-            </div>
-
-          </div>
-
-          {/* Row 2: Full-Width Search Bar */}
-          <div className="relative flex items-center bg-slate-100/90 hover:bg-slate-100 border border-slate-200/90 rounded-2xl px-3 py-1.5 sm:py-2 transition focus-within:ring-2 focus-within:ring-emerald-500/20 focus-within:border-emerald-500 focus-within:bg-white shadow-2xs">
-            <Search className="w-4 h-4 text-slate-400 shrink-0 mr-2" />
-            
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => onSearchChange(e.target.value)}
-              placeholder={placeholders[placeholderIndex]}
-              className="w-full bg-transparent text-xs text-slate-800 placeholder-slate-400 focus:outline-none font-medium min-w-0"
-            />
-
-            <button
-              onClick={onOpenAiPartFinder}
-              title="Snap broken hardware part for instant AI match"
-              className="ml-1.5 bg-white hover:bg-emerald-50 text-emerald-700 border border-emerald-300 font-extrabold text-[11px] px-2 py-0.5 rounded-xl flex items-center gap-1 shrink-0 transition cursor-pointer shadow-2xs"
-            >
-              <Camera className="w-3.5 h-3.5 text-emerald-600" />
-              <span className="text-[10px] font-black">AI Match</span>
-            </button>
-          </div>
-
-        </div>
-
-        {/* ================= TABLET / MID-SIZE HEADER (768px - 1023px: md to lg) ================= */}
-        <div className="hidden md:block lg:hidden space-y-2.5">
-          {/* Row 1: Logo & Location on Left | B2B & Profile on Right */}
-          <div className="flex items-center justify-between gap-4">
-            
-            {/* Logo & Drop Location */}
-            <div className="flex items-center gap-4 min-w-0">
-              <div 
-                onClick={() => onSearchChange('')}
-                className="flex items-center gap-1.5 cursor-pointer select-none shrink-0"
-              >
-                <div className="flex items-baseline font-black text-xl tracking-tighter text-slate-900">
-                  <span>blink</span>
-                  <span className="text-emerald-600">it</span>
-                </div>
-                <div className="bg-amber-400 text-zinc-950 text-[8px] font-black uppercase px-1.5 py-0.5 rounded tracking-wider shadow-2xs">
-                  HARDWARE
-                </div>
-              </div>
-
-              {/* Delivery ETA Location Block */}
-              <div 
-                onClick={onOpenLocationModal}
-                className="cursor-pointer group flex items-center gap-2.5 pl-3 border-l border-slate-200 min-w-0 transition select-none"
-                title="Change Delivery Location"
-              >
-                <div className="leading-tight min-w-0">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-tight">Delivery in</span>
-                    <span className="text-xs font-black text-emerald-700 tracking-tight">
-                      {liveEta.etaMins} MINS
-                    </span>
-                    <span className="text-[8px] font-extrabold text-emerald-900 bg-emerald-100 px-1.5 py-0.2 rounded-full uppercase tracking-wider">
-                      {liveEta.badge}
-                    </span>
-                  </div>
-                  
-                  <div className="flex items-center gap-1 text-[11px] text-slate-700 font-bold truncate mt-0.5 group-hover:text-emerald-700 max-w-[220px]">
-                    <span className="truncate">{jobSite.floorUnit || jobSite.address}</span>
-                    <span className="text-emerald-700 bg-emerald-50 px-1 rounded text-[9.5px] font-black shrink-0">⚡ {liveEta.etaMins} MINS</span>
-                    <ChevronDown className="w-3 h-3 shrink-0 text-slate-400 group-hover:text-emerald-700 transition" />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Tablet Actions */}
-            <div className="flex items-center gap-2.5 shrink-0">
-              {/* Profile Button */}
-              <button
-                onClick={onOpenProfileModal}
-                className="text-slate-700 hover:text-slate-900 hover:bg-slate-100 font-bold text-xs px-2.5 py-1.5 rounded-xl flex items-center gap-2 transition cursor-pointer border border-slate-200/90 shadow-2xs"
-              >
-                <div className="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center text-[10px] font-black shrink-0">
-                  {userInitial}
-                </div>
-                <div className="text-left leading-none">
-                  <div className="font-extrabold text-slate-900 text-[11px] truncate max-w-[90px]">
-                    {customerProfile.name ? customerProfile.name.split(' ')[0] : 'Account'}
-                  </div>
-                </div>
-              </button>
-            </div>
-
-          </div>
-
-          {/* Row 2: Full Width Tablet Search Bar */}
-          <div className="relative flex items-center bg-slate-100/90 hover:bg-slate-100 border border-slate-200/90 rounded-2xl px-3.5 py-2 transition focus-within:ring-2 focus-within:ring-emerald-500/20 focus-within:border-emerald-500 focus-within:bg-white shadow-2xs">
-            <Search className="w-4 h-4 text-slate-400 shrink-0 mr-2.5" />
-            
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => onSearchChange(e.target.value)}
-              placeholder={placeholders[placeholderIndex]}
-              className="w-full bg-transparent text-xs text-slate-800 placeholder-slate-400 focus:outline-none font-medium min-w-0"
-            />
-
-            <button
-              onClick={onOpenAiPartFinder}
-              className="ml-2 bg-white hover:bg-emerald-50 text-emerald-700 border border-emerald-300 font-extrabold text-xs px-2.5 py-1 rounded-xl flex items-center gap-1.5 shrink-0 transition cursor-pointer shadow-2xs"
-            >
-              <Camera className="w-3.5 h-3.5 text-emerald-600" />
-              <span>AI Photo Match</span>
-            </button>
-          </div>
-        </div>
-
-        {/* ================= DESKTOP HEADER (1024px+ : lg and up) ================= */}
-        <div className="hidden lg:flex items-center justify-between gap-3 xl:gap-4">
-          
-          {/* Logo & Drop Location */}
-          <div className="flex items-center gap-4 xl:gap-6 shrink-0">
-            <div 
-              onClick={() => onSearchChange('')}
-              className="flex items-center gap-1.5 cursor-pointer select-none"
-            >
-              <div className="flex items-baseline font-black text-2xl tracking-tighter text-slate-900">
-                <span>blink</span>
-                <span className="text-emerald-600">it</span>
-              </div>
-              <div className="bg-amber-400 text-zinc-950 text-[9px] font-black uppercase px-1.5 py-0.5 rounded tracking-wider shadow-2xs">
+              <span className="bg-slate-950 text-amber-300 text-[8px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded-sm tracking-wider shadow-2xs ml-0.5 hidden min-[380px]:inline-block">
                 HARDWARE
-              </div>
+              </span>
             </div>
 
-            {/* Drop Location */}
-            <div 
-              onClick={onOpenLocationModal}
-              className="cursor-pointer group flex items-center gap-3 pl-4 xl:pl-5 border-l border-slate-200/90 transition select-none"
-              title="Change Delivery Location"
-            >
-              <div className="leading-tight">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-slate-500 uppercase tracking-tight">Delivery in</span>
-                  <span className="text-base font-black text-emerald-700 tracking-tight">
-                    {liveEta.etaMins} MINUTES
-                  </span>
-                  <span className="text-[9px] font-extrabold text-emerald-900 bg-emerald-100 px-2 py-0.5 rounded-full uppercase tracking-wider">
-                    {liveEta.badge}
-                  </span>
-                </div>
-                
-                <div className="flex items-center gap-1.5 text-xs text-slate-700 font-bold truncate mt-0.5 group-hover:text-emerald-700 max-w-[180px] xl:max-w-[260px]">
-                  <span className="truncate">{jobSite.floorUnit || jobSite.address}</span>
-                  <span className="text-emerald-700 bg-emerald-50 px-1 rounded text-[10px] font-black shrink-0">⚡ {liveEta.etaMins} MINS</span>
-                  <ChevronDown className="w-3.5 h-3.5 shrink-0 text-slate-400 group-hover:text-emerald-700 transition" />
+            {/* Separator Line */}
+            <div className="h-8 w-px bg-slate-900/15 shrink-0 hidden min-[480px]:block" />
+
+            {/* Delivery Info Block */}
+            <div className="min-w-0 flex-1">
+              <div className="text-[10px] sm:text-xs font-black text-slate-800 tracking-tight flex items-center gap-1 leading-none">
+                <span>Blinkit in</span>
+              </div>
+
+              {/* Big ETA Text & Distance Badge */}
+              <div className="flex items-center gap-2 mt-0.5">
+                <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-950 tracking-tight leading-none shrink-0">
+                  {liveEta.etaMins} minutes
+                </h1>
+
+                {/* Distance Badge */}
+                <div className="bg-teal-900/10 text-teal-950 border border-teal-800/20 text-[10px] sm:text-xs font-black px-2 py-0.5 rounded-full flex items-center gap-1 shrink-0">
+                  <Store className="w-3 h-3 text-teal-800" />
+                  <span>{liveEta.distanceKm || 1.2} km away</span>
                 </div>
               </div>
-            </div>
-          </div>
 
-          {/* Search Bar */}
-          <div className="flex-1 max-w-xl mx-2 xl:mx-4 min-w-[220px]">
-            <div className="relative flex items-center bg-slate-100/90 hover:bg-slate-100 border border-slate-200/90 rounded-2xl px-3.5 py-2.5 transition focus-within:ring-2 focus-within:ring-emerald-500/20 focus-within:border-emerald-500 focus-within:bg-white shadow-2xs">
-              <Search className="w-4 h-4 text-slate-400 shrink-0 mr-2.5" />
-              
-              <input
-                id="blinkit-search-input"
-                type="text"
-                value={searchQuery}
-                onChange={(e) => onSearchChange(e.target.value)}
-                placeholder={placeholders[placeholderIndex]}
-                className="w-full bg-transparent text-sm text-slate-800 placeholder-slate-400 focus:outline-none font-medium min-w-0"
-              />
-
+              {/* Delivery Address Dropdown */}
               <button
-                onClick={onOpenAiPartFinder}
-                className="ml-2 bg-white hover:bg-emerald-50 text-emerald-700 border border-emerald-300 font-extrabold text-xs px-2.5 py-1 rounded-xl flex items-center gap-1.5 shrink-0 transition cursor-pointer shadow-2xs"
+                onClick={onOpenLocationModal}
+                className="mt-1 flex items-center gap-1 text-xs sm:text-sm font-extrabold text-slate-900 hover:text-slate-800 transition cursor-pointer max-w-full group"
+                title="Change Delivery Jobsite Address"
               >
-                <Camera className="w-3.5 h-3.5 text-emerald-600" />
-                <span>AI Photo Match</span>
+                <span className="font-black uppercase tracking-tight text-slate-950 underline decoration-slate-950/40 underline-offset-2 shrink-0">
+                  {jobSite.jobTag || 'HOME'}
+                </span>
+                <span className="text-slate-900 font-bold truncate max-w-[140px] sm:max-w-[260px] md:max-w-[360px]">
+                  - {jobSite.floorUnit ? `${jobSite.floorUnit}, ` : ''}{jobSite.address}
+                </span>
+                <ChevronDown className="w-3.5 h-3.5 text-slate-900 group-hover:translate-y-0.5 transition shrink-0 ml-0.5" />
               </button>
             </div>
+
           </div>
 
-          {/* Right Desktop Actions */}
-          <div className="flex items-center gap-2.5 xl:gap-3 shrink-0">
-            {/* Profile Button */}
+          {/* Right Block: Account Profile Button (No Wallet as requested) */}
+          <div className="flex items-center shrink-0">
             <button
               onClick={onOpenProfileModal}
-              className="text-slate-700 hover:text-slate-900 hover:bg-slate-100 font-bold text-xs px-2.5 xl:px-3 py-2 rounded-xl flex items-center gap-2.5 transition cursor-pointer border border-slate-200/90 shadow-2xs"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white text-slate-950 border border-amber-300 shadow-sm flex items-center justify-center font-black text-sm hover:scale-105 active:scale-95 transition cursor-pointer"
+              title="Account & Trade Profile"
             >
-              <div className="w-7 h-7 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-black shrink-0">
-                {userInitial}
-              </div>
-              <div className="text-left leading-none">
-                <div className="font-extrabold text-slate-900 text-xs truncate max-w-[100px] xl:max-w-[110px]">
-                  {customerProfile.name ? customerProfile.name.split(' ')[0] : 'Account'}
-                </div>
-                <div className="text-[10px] text-emerald-700 font-bold mt-0.5">
-                  {customerProfile.isPhoneVerified ? 'Verified Pro' : 'Trade Profile'}
-                </div>
-              </div>
+              {userInitial ? (
+                <span className="text-sm font-black">{userInitial}</span>
+              ) : (
+                <User className="w-5 h-5 text-slate-800" />
+              )}
             </button>
-
           </div>
 
+        </div>
+
+        {/* Search Bar Row: Spacious, Clean Floating Card */}
+        <div className="relative">
+          <div className="flex items-center bg-white border border-slate-200/90 rounded-2xl sm:rounded-full px-3.5 py-2.5 sm:py-3 shadow-md transition-all focus-within:ring-2 focus-within:ring-slate-900 focus-within:shadow-lg">
+            
+            {/* Search Icon */}
+            <Search className="w-5 h-5 text-slate-800 shrink-0 mr-2.5" />
+
+            {/* Input */}
+            <input
+              id="blinkit-search-input"
+              type="text"
+              value={searchQuery}
+              onChange={(e) => onSearchChange(e.target.value)}
+              placeholder={placeholders[placeholderIndex]}
+              className="w-full bg-transparent text-xs sm:text-sm md:text-base text-slate-900 placeholder-slate-400 focus:outline-none font-semibold min-w-0"
+            />
+
+            {/* Right Action Buttons in Search Bar */}
+            <div className="flex items-center gap-1.5 shrink-0 ml-1">
+              
+              {/* Clear button if active query */}
+              {searchQuery && (
+                <button
+                  onClick={() => onSearchChange('')}
+                  className="text-xs font-bold text-slate-400 hover:text-slate-700 px-2 py-1 rounded-lg"
+                >
+                  Clear
+                </button>
+              )}
+
+              {/* AI Photo Match / Camera Button */}
+              <button
+                onClick={onOpenAiPartFinder}
+                className="bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-300/80 font-black text-xs px-2.5 py-1.5 rounded-xl flex items-center gap-1.5 shrink-0 transition cursor-pointer shadow-2xs"
+                title="Snap or upload hardware part photo for AI match"
+              >
+                <Camera className="w-4 h-4 text-emerald-700" />
+                <span className="hidden sm:inline text-xs">AI Match</span>
+              </button>
+
+              {/* Mic Icon (Visual voice search standard) */}
+              <button
+                onClick={onOpenAiPartFinder}
+                className="p-1.5 text-slate-500 hover:text-slate-900 transition cursor-pointer rounded-full hover:bg-slate-100"
+                title="Voice / AI Search"
+              >
+                <Mic className="w-4 h-4" />
+              </button>
+            </div>
+
+          </div>
         </div>
 
       </div>
     </header>
   );
 };
-
-
