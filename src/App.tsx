@@ -86,7 +86,15 @@ export default function App() {
   const [products, setProducts] = useState<HardwareProduct[]>(() => {
     try {
       const saved = localStorage.getItem('blinkit_hardware_products');
-      return saved ? JSON.parse(saved) : INITIAL_PRODUCTS;
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          const existingIds = new Set(parsed.map((p: HardwareProduct) => p.id));
+          const missing = INITIAL_PRODUCTS.filter(p => !existingIds.has(p.id));
+          return missing.length > 0 ? [...parsed, ...missing] : parsed;
+        }
+      }
+      return INITIAL_PRODUCTS;
     } catch {
       return INITIAL_PRODUCTS;
     }

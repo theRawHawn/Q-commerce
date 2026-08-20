@@ -9,7 +9,10 @@ import {
   RotateCcw, 
   Layers,
   Sparkles,
-  Grid
+  Grid,
+  Disc,
+  Scissors,
+  Hammer
 } from 'lucide-react';
 import { TradeCategory } from '../types';
 
@@ -43,6 +46,21 @@ export const CATEGORIES_DATA: CategoryItem[] = [
     id: 'electrical',
     label: 'Electrical',
     icon: Zap,
+  },
+  {
+    id: 'screws',
+    label: 'Screws & Anchors',
+    icon: Hammer,
+  },
+  {
+    id: 'cutters',
+    label: 'Tile & Iron Cutters',
+    icon: Scissors,
+  },
+  {
+    id: 'cutting_discs',
+    label: 'Cutting Discs & Blades',
+    icon: Disc,
   },
   {
     id: 'fasteners',

@@ -37,13 +37,13 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const placeholders = [
     'Search "1/2 brass angle valve"',
-    'Search "16A C-Curve MCB"',
-    'Search "Teflon PTFE tape"',
-    'Search "CPVC solvent cement"',
-    'Search "Bosch 6mm SDS drill bit"',
-    'Search "Fischer nylon wall plugs"',
-    'Search "M-Seal & Araldite epoxy"',
-    'Search "Supreme & Astral fittings"',
+    'Search "Bosch 1250W tile cutter machine"',
+    'Search "4 inch diamond cutting disc"',
+    'Search "Self-drilling hex head screws"',
+    'Search "16A C-Curve MCB breaker"',
+    'Search "Dewalt 4 inch angle grinder"',
+    'Search "Fischer nylon wall plugs & screws"',
+    'Search "Ultra-thin iron cutting wheel disc"',
   ];
 
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
