@@ -89,11 +89,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             <div className="absolute top-2 right-2 bg-rose-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded-md uppercase tracking-wider shadow-2xs">
               {discountPercent}% OFF
             </div>
-          ) : (
-            <div className="absolute top-2 right-2 bg-slate-900/80 text-white text-[8.5px] font-bold px-1.5 py-0.5 rounded-md uppercase tracking-wider">
-              {product.stockCount <= 5 ? `Only ${product.stockCount} left` : 'In Stock'}
+          ) : product.stockCount <= 5 ? (
+            <div className="absolute top-2 right-2 bg-amber-600 text-white text-[8.5px] font-black px-1.5 py-0.5 rounded-md uppercase tracking-wider">
+              Only {product.stockCount} left
             </div>
-          )}
+          ) : null}
 
           {/* Center Graphic / Real Product Photo */}
           {product.imageUrl ? (
@@ -150,20 +150,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             {product.name}
           </h3>
 
-          {/* 3. Offer Badge & Stock Alert (25% OFF / Only 3 left) */}
-          <div className="flex items-center gap-1.5 flex-wrap">
-            {discountPercent ? (
-              <span className="bg-rose-100 text-rose-800 border border-rose-200 text-[9.5px] font-black px-1.5 py-0.5 rounded uppercase tracking-wide">
-                {discountPercent}% OFF
-              </span>
-            ) : null}
-            <span className="bg-amber-100/90 text-amber-900 border border-amber-200/80 text-[9.5px] font-extrabold px-1.5 py-0.5 rounded">
-              {product.stockCount <= 5 ? `Only ${product.stockCount} left` : 'In Stock'}
-            </span>
-          </div>
-
-          {/* 4. Rating & ⚡ 9 MINS Speed Tag (in place of location distance) */}
-          <div className="flex items-center justify-between gap-1 pt-1 border-t border-slate-100">
+          {/* 3. Rating & ⚡ Delivery ETA Speed Tag */}
+          <div className="flex items-center justify-between gap-1 pt-1.5 border-t border-slate-100">
             <span className="inline-flex items-center gap-0.5 bg-emerald-50 border border-emerald-200 text-emerald-800 text-[10px] font-extrabold px-1.5 py-0.2 rounded shrink-0">
               <Star className="w-2.5 h-2.5 fill-emerald-600 text-emerald-600" />
               <span>{product.rating}</span>
