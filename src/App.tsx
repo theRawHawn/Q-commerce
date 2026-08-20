@@ -41,6 +41,7 @@ import { DEFAULT_INITIAL_ORDERS } from './data/sampleOrders';
 import { CartPage } from './components/CartPage';
 import { OrderTrackingModal } from './components/OrderTrackingModal';
 import { CustomerProfileModal } from './components/CustomerProfileModal';
+import { ProfilePage } from './components/ProfilePage';
 import { OrderAgainSection } from './components/OrderAgainSection';
 import { MobileBottomNav } from './components/MobileBottomNav';
 import { calculateDynamicDeliveryEta, calculateCartDispatchSummary } from './utils/deliveryEta';
@@ -444,6 +445,32 @@ export default function App() {
   const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const cartTotal = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
 
+  // Dedicated Full-Page Profile View
+  if (isProfileModalOpen) {
+    return (
+      <ProfilePage
+        profile={customerProfile}
+        onSaveProfile={setCustomerProfile}
+        orders={orders}
+        onClose={() => setIsProfileModalOpen(false)}
+        onOpenOrderTracking={(orderId) => {
+          setIsProfileModalOpen(false);
+          setActiveOrderId(orderId);
+          setIsTrackingOpen(true);
+        }}
+        onOpenRestock={() => {
+          setIsProfileModalOpen(false);
+          setIsRestockOpen(true);
+        }}
+        onUpdateJobSite={setJobSite}
+        onOpenLocationModal={() => {
+          setIsProfileModalOpen(false);
+          setIsJobsiteModalOpen(true);
+        }}
+      />
+    );
+  }
+
   // Dedicated Full-Page Cart & Checkout View
   if (isCartOpen) {
     return (
@@ -468,19 +495,6 @@ export default function App() {
           onClose={() => setIsJobsiteModalOpen(false)}
           currentLocation={jobSite}
           onSaveLocation={setJobSite}
-        />
-
-        <CustomerProfileModal
-          isOpen={isProfileModalOpen}
-          onClose={() => setIsProfileModalOpen(false)}
-          profile={customerProfile}
-          onSaveProfile={setCustomerProfile}
-          orders={orders}
-          onOpenOrderTracking={(orderId) => {
-            setActiveOrderId(orderId);
-            setIsTrackingOpen(true);
-          }}
-          onUpdateJobSite={setJobSite}
         />
       </div>
     );

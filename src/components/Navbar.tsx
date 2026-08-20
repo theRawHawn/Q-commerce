@@ -60,7 +60,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const userInitial = customerProfile.name ? customerProfile.name.charAt(0).toUpperCase() : 'R';
 
   return (
-    <header className="sticky top-0 z-40 w-full rounded-none bg-gradient-to-b from-[#FFE600] via-[#FFEB3B] to-[#FFF275] border-b border-amber-300/80 shadow-xs text-slate-900 transition-all">
+    <header className="sticky top-0 z-40 w-full rounded-none bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 border-b border-amber-400/80 shadow-xs text-slate-950 transition-all">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 pt-3 pb-3 sm:pb-3.5 space-y-2.5 sm:space-y-3">
         
         {/* Top Row: Logo, Delivery ETA, Address & Profile */}
@@ -77,7 +77,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               <div className="flex items-baseline font-black text-xl sm:text-2xl tracking-tighter text-slate-950">
                 <span>blink</span>
-                <span className="text-emerald-700">it</span>
+                <span className="text-slate-950">it</span>
               </div>
               <span className="bg-slate-950 text-amber-300 text-[8px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded-sm tracking-wider shadow-2xs ml-0.5 hidden min-[380px]:inline-block">
                 HARDWARE
@@ -85,7 +85,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
 
             {/* Separator Line */}
-            <div className="h-8 w-px bg-slate-900/15 shrink-0 hidden min-[480px]:block" />
+            <div className="h-8 w-px bg-slate-950/20 shrink-0 hidden min-[480px]:block" />
 
             {/* Delivery Info Block */}
             <div className="min-w-0 flex-1">
@@ -100,32 +100,32 @@ export const Navbar: React.FC<NavbarProps> = ({
               {/* Delivery Address Dropdown with reduced size and lower contrast */}
               <button
                 onClick={onOpenLocationModal}
-                className="mt-1 flex items-center gap-1 text-[11px] sm:text-xs font-semibold text-slate-700 hover:text-slate-950 transition cursor-pointer max-w-full group"
+                className="mt-1 flex items-center gap-1 text-[11px] sm:text-xs font-semibold text-slate-900/90 hover:text-slate-950 transition cursor-pointer max-w-full group"
                 title="Change Delivery Jobsite Address"
               >
-                <span className="font-extrabold uppercase tracking-tight text-slate-800 underline decoration-slate-800/30 underline-offset-2 shrink-0">
+                <span className="font-extrabold uppercase tracking-tight text-slate-950 underline decoration-slate-950/40 underline-offset-2 shrink-0">
                   {jobSite.jobTag || 'HOME'}
                 </span>
-                <span className="text-slate-600 font-medium truncate max-w-[140px] sm:max-w-[260px] md:max-w-[360px]">
+                <span className="text-slate-900/80 font-medium truncate max-w-[140px] sm:max-w-[260px] md:max-w-[360px]">
                   - {jobSite.floorUnit ? `${jobSite.floorUnit}, ` : ''}{jobSite.address}
                 </span>
-                <ChevronDown className="w-3 h-3 text-slate-600 group-hover:translate-y-0.5 transition shrink-0 ml-0.5" />
+                <ChevronDown className="w-3 h-3 text-slate-950 group-hover:translate-y-0.5 transition shrink-0 ml-0.5" />
               </button>
             </div>
 
           </div>
 
-          {/* Right Block: Account Profile Button (No Wallet as requested) */}
+          {/* Right Block: Account Profile Button (No Wallet) */}
           <div className="flex items-center shrink-0">
             <button
               onClick={onOpenProfileModal}
-              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white text-slate-950 border border-amber-300 shadow-sm flex items-center justify-center font-black text-sm hover:scale-105 active:scale-95 transition cursor-pointer"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-950 text-white border border-amber-300 shadow-md flex items-center justify-center font-black text-sm hover:scale-105 active:scale-95 transition cursor-pointer"
               title="Account & Trade Profile"
             >
               {userInitial ? (
-                <span className="text-sm font-black">{userInitial}</span>
+                <span className="text-sm font-black text-amber-300">{userInitial}</span>
               ) : (
-                <User className="w-5 h-5 text-slate-800" />
+                <User className="w-5 h-5 text-amber-300" />
               )}
             </button>
           </div>

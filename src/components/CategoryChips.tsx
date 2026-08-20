@@ -109,7 +109,7 @@ export const CategoryChips: React.FC<CategoryChipsProps> = ({
                 <div 
                   className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center transition-all duration-200 relative ${
                     isSelected
-                      ? 'bg-slate-950 text-amber-300 shadow-md scale-105'
+                      ? 'bg-slate-950 text-amber-300 shadow-md scale-105 border border-amber-400/30'
                       : 'bg-slate-100/90 text-slate-800 hover:bg-slate-200/80 border border-slate-200/60'
                   }`}
                 >
