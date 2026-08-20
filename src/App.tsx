@@ -37,6 +37,7 @@ import { PartFinderModal } from './components/PartFinderModal';
 import { RoiCalculatorModal } from './components/RoiCalculatorModal';
 import { OrderHistoryModal } from './components/OrderHistoryModal';
 import { JobsiteAddressModal } from './components/JobsiteAddressModal';
+import { LocationPage } from './components/LocationPage';
 import { DEFAULT_INITIAL_ORDERS } from './data/sampleOrders';
 import { CartPage } from './components/CartPage';
 import { OrderTrackingModal } from './components/OrderTrackingModal';
@@ -444,6 +445,20 @@ export default function App() {
 
   const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const cartTotal = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+
+  // Dedicated Full-Page Delivery Location View
+  if (isJobsiteModalOpen) {
+    return (
+      <LocationPage
+        currentLocation={jobSite}
+        onSaveLocation={(newLoc) => {
+          setJobSite(newLoc);
+          setIsJobsiteModalOpen(false);
+        }}
+        onClose={() => setIsJobsiteModalOpen(false)}
+      />
+    );
+  }
 
   // Dedicated Full-Page Profile View
   if (isProfileModalOpen) {
