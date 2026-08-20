@@ -89,12 +89,8 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Delivery Info Block */}
             <div className="min-w-0 flex-1">
-              <div className="text-[10px] sm:text-xs font-black text-slate-800 tracking-tight flex items-center gap-1 leading-none">
-                <span>Blinkit in</span>
-              </div>
-
               {/* Big ETA Text with Lightning bolt */}
-              <div className="flex items-center gap-1.5 mt-0.5">
+              <div className="flex items-center gap-1.5">
                 <Zap className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-slate-950 fill-slate-950 shrink-0" />
                 <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-950 tracking-tight leading-none shrink-0">
                   {liveEta.etaMins} minutes
