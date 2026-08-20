@@ -60,7 +60,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const userInitial = customerProfile.name ? customerProfile.name.charAt(0).toUpperCase() : 'R';
 
   return (
-    <header className="sticky top-0 z-40 bg-gradient-to-b from-[#FFE600] via-[#FFEB3B] to-[#FFF275] border-b border-amber-300/80 shadow-xs text-slate-900 transition-all">
+    <header className="sticky top-0 z-40 w-full rounded-none bg-gradient-to-b from-[#FFE600] via-[#FFEB3B] to-[#FFF275] border-b border-amber-300/80 shadow-xs text-slate-900 transition-all">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 pt-3 pb-3 sm:pb-3.5 space-y-2.5 sm:space-y-3">
         
         {/* Top Row: Logo, Delivery ETA, Address & Profile */}

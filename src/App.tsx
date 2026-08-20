@@ -487,7 +487,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F4F6F8] text-slate-900 flex flex-col font-sans antialiased selection:bg-emerald-600 selection:text-white">
+    <div className="min-h-screen bg-[#F4F6F8] text-slate-900 flex flex-col font-sans antialiased selection:bg-emerald-600 selection:text-white rounded-none">
       
       {/* Signature Blinkit Topbar */}
       <Navbar
