@@ -4,7 +4,7 @@ import {
   ChevronDown, 
   Camera, 
   Mic,
-  Store,
+  Zap,
   User,
   Sparkles
 } from 'lucide-react';
@@ -93,32 +93,27 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <span>Blinkit in</span>
               </div>
 
-              {/* Big ETA Text & Distance Badge */}
-              <div className="flex items-center gap-2 mt-0.5">
-                <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-950 tracking-tight leading-none shrink-0">
+              {/* Big ETA Text with Lightning bolt */}
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <Zap className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-slate-950 fill-slate-950 shrink-0" />
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-950 tracking-tight leading-none shrink-0">
                   {liveEta.etaMins} minutes
                 </h1>
-
-                {/* Distance Badge */}
-                <div className="bg-teal-900/10 text-teal-950 border border-teal-800/20 text-[10px] sm:text-xs font-black px-2 py-0.5 rounded-full flex items-center gap-1 shrink-0">
-                  <Store className="w-3 h-3 text-teal-800" />
-                  <span>{liveEta.distanceKm || 1.2} km away</span>
-                </div>
               </div>
 
-              {/* Delivery Address Dropdown */}
+              {/* Delivery Address Dropdown with reduced size and lower contrast */}
               <button
                 onClick={onOpenLocationModal}
-                className="mt-1 flex items-center gap-1 text-xs sm:text-sm font-extrabold text-slate-900 hover:text-slate-800 transition cursor-pointer max-w-full group"
+                className="mt-1 flex items-center gap-1 text-[11px] sm:text-xs font-semibold text-slate-700 hover:text-slate-950 transition cursor-pointer max-w-full group"
                 title="Change Delivery Jobsite Address"
               >
-                <span className="font-black uppercase tracking-tight text-slate-950 underline decoration-slate-950/40 underline-offset-2 shrink-0">
+                <span className="font-extrabold uppercase tracking-tight text-slate-800 underline decoration-slate-800/30 underline-offset-2 shrink-0">
                   {jobSite.jobTag || 'HOME'}
                 </span>
-                <span className="text-slate-900 font-bold truncate max-w-[140px] sm:max-w-[260px] md:max-w-[360px]">
+                <span className="text-slate-600 font-medium truncate max-w-[140px] sm:max-w-[260px] md:max-w-[360px]">
                   - {jobSite.floorUnit ? `${jobSite.floorUnit}, ` : ''}{jobSite.address}
                 </span>
-                <ChevronDown className="w-3.5 h-3.5 text-slate-900 group-hover:translate-y-0.5 transition shrink-0 ml-0.5" />
+                <ChevronDown className="w-3 h-3 text-slate-600 group-hover:translate-y-0.5 transition shrink-0 ml-0.5" />
               </button>
             </div>
 
