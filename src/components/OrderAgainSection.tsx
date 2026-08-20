@@ -34,7 +34,7 @@ export const OrderAgainSection: React.FC<OrderAgainSectionProps> = ({
           onClick={onOpenRestock}
           className="text-xs font-bold text-emerald-700 hover:text-emerald-800 flex items-center gap-0.5 cursor-pointer"
         >
-          <span>Quick Kits</span>
+          <span>Order History</span>
           <ChevronRight className="w-3.5 h-3.5" />
         </button>
       </div>

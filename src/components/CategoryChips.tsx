@@ -7,7 +7,7 @@ import {
   Wrench, 
   TestTube, 
   ShieldCheck, 
-  Boxes, 
+  RotateCcw, 
   Receipt,
   Clock,
   Filter,
@@ -145,18 +145,18 @@ export const CategoryChips: React.FC<CategoryChipsProps> = ({
             );
           })}
 
-          {/* Quick Van Restock Tile */}
+          {/* Quick Reorder & History Tile */}
           <button
             onClick={onOpenRestock}
             className="flex-shrink-0 flex flex-col items-center gap-1.5 cursor-pointer group text-center w-16 sm:w-20"
           >
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl p-1.5 bg-purple-50 border border-purple-200 flex flex-col items-center justify-center hover:bg-purple-100/70 transition shadow-2xs">
-              <div className="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center mb-1">
-                <Boxes className="w-4 h-4" />
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl p-1.5 bg-emerald-50 border border-emerald-200 flex flex-col items-center justify-center hover:bg-emerald-100/70 transition shadow-2xs">
+              <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center mb-1">
+                <RotateCcw className="w-4 h-4" />
               </div>
-              <span className="text-[9px] font-black text-purple-900 uppercase">Restock</span>
+              <span className="text-[9px] font-black text-emerald-900 uppercase">Reorder</span>
             </div>
-            <span className="text-[11px] sm:text-xs font-extrabold text-slate-700 w-full text-center truncate block">Van Kits</span>
+            <span className="text-[11px] sm:text-xs font-extrabold text-slate-700 w-full text-center truncate block">History</span>
           </button>
         </div>
 

@@ -35,8 +35,9 @@ import { ProductShelf } from './components/ProductShelf';
 import { ProductDetailModal } from './components/ProductDetailModal';
 import { PartFinderModal } from './components/PartFinderModal';
 import { RoiCalculatorModal } from './components/RoiCalculatorModal';
-import { ToolboxRestockModal } from './components/ToolboxRestockModal';
+import { OrderHistoryModal } from './components/OrderHistoryModal';
 import { JobsiteAddressModal } from './components/JobsiteAddressModal';
+import { DEFAULT_INITIAL_ORDERS } from './data/sampleOrders';
 import { CartPage } from './components/CartPage';
 import { OrderTrackingModal } from './components/OrderTrackingModal';
 import { CustomerProfileModal } from './components/CustomerProfileModal';
@@ -95,9 +96,15 @@ export default function App() {
   const [orders, setOrders] = useState<Order[]>(() => {
     try {
       const saved = localStorage.getItem('blinkit_hardware_orders');
-      return saved ? JSON.parse(saved) : [];
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+      return DEFAULT_INITIAL_ORDERS;
     } catch {
-      return [];
+      return DEFAULT_INITIAL_ORDERS;
     }
   });
 
@@ -837,11 +844,17 @@ export default function App() {
         onClose={() => setIsRoiCalcOpen(false)}
       />
 
-      <ToolboxRestockModal
+      <OrderHistoryModal
         isOpen={isRestockOpen}
         onClose={() => setIsRestockOpen(false)}
-        products={products}
+        orders={orders}
+        onAddToCart={handleAddToCart}
         onAddMultipleToCart={handleAddMultipleToCart}
+        onOpenOrderTracking={(orderId) => {
+          setActiveOrderId(orderId);
+          setIsTrackingOpen(true);
+        }}
+        onOpenCart={() => setIsCartOpen(true)}
       />
 
       <JobsiteAddressModal
