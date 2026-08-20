@@ -191,26 +191,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Right Tablet Actions */}
             <div className="flex items-center gap-2.5 shrink-0">
-              {/* B2B GSTIN Pill */}
-              <button
-                onClick={onOpenProfileModal}
-                className={`font-bold text-xs px-3 py-1.5 rounded-xl flex items-center gap-1.5 transition cursor-pointer border ${
-                  isB2B
-                    ? 'bg-emerald-50 border-emerald-300 text-emerald-900 hover:bg-emerald-100'
-                    : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
-                }`}
-              >
-                <Building2 className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
-                <div className="text-left leading-tight">
-                  <div className="font-extrabold text-[10px]">
-                    {isB2B ? 'B2B GST: Active' : 'GSTIN & Billing'}
-                  </div>
-                  <div className="text-[8.5px] text-slate-500">
-                    {isB2B ? '18% ITC Claimable' : 'Claim Tax Credit'}
-                  </div>
-                </div>
-              </button>
-
               {/* Profile Button */}
               <button
                 onClick={onOpenProfileModal}
@@ -321,27 +301,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Right Desktop Actions */}
           <div className="flex items-center gap-2.5 xl:gap-3 shrink-0">
-            
-            {/* B2B GSTIN Pill */}
-            <button
-              onClick={onOpenProfileModal}
-              className={`font-bold text-xs px-3 xl:px-3.5 py-2 rounded-xl flex items-center gap-2 transition cursor-pointer border ${
-                isB2B
-                  ? 'bg-emerald-50 border-emerald-300 text-emerald-900 hover:bg-emerald-100'
-                  : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
-              }`}
-            >
-              <Building2 className="w-4 h-4 text-emerald-700 shrink-0" />
-              <div className="text-left leading-tight">
-                <div className="font-extrabold text-[11px]">
-                  {isB2B ? 'B2B GST: Active' : 'GSTIN & Billing'}
-                </div>
-                <div className="text-[9px] text-slate-500">
-                  {isB2B ? '18% ITC Claimable' : 'Claim Tax Credit'}
-                </div>
-              </div>
-            </button>
-
             {/* Profile Button */}
             <button
               onClick={onOpenProfileModal}

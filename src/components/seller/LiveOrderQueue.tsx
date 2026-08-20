@@ -149,7 +149,7 @@ export const LiveOrderQueue: React.FC<LiveOrderQueueProps> = ({
           <div>
             <h3 className="text-base font-bold text-slate-900">No active orders in this queue</h3>
             <p className="text-xs text-slate-500 max-w-sm mx-auto mt-1">
-              When tradespeople or contractors order fittings to their site, orders will appear here for immediate 2-minute bin picking.
+              When customers order hardware items, orders will appear here for immediate 2-minute bin picking.
             </p>
           </div>
           <button

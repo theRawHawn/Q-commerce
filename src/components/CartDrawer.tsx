@@ -216,7 +216,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   <div className="bg-white rounded-2xl border border-slate-200 p-3 shadow-2xs space-y-2.5">
                     <div className="flex items-center gap-1.5 text-xs font-black text-slate-900">
                       <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                      <span>Tradespeople also grab these:</span>
+                      <span>Frequently bought together:</span>
                     </div>
                     <div className="space-y-2">
                       {suggestedCompanions.map(p => (

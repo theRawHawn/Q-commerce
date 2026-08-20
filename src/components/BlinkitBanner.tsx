@@ -38,9 +38,6 @@ export const BlinkitBanner: React.FC<BlinkitBannerProps> = ({
               <span className="bg-sky-900 text-white text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2 sm:px-2.5 py-0.5 rounded-full">
                 ⚡ {deliveryEtaMins}-MIN DISPATCH
               </span>
-              <span className="text-[10px] sm:text-[11px] font-bold text-sky-800">
-                Local Hardware Store Network
-              </span>
             </div>
             <h2 className="text-lg sm:text-xl md:text-2xl font-black text-slate-900 tracking-tight">
               MIX, FIX & REPAIR 🛠️

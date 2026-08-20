@@ -160,38 +160,6 @@ export const CategoryChips: React.FC<CategoryChipsProps> = ({
           </button>
         </div>
 
-        {/* Filter Quick Chips Row (GSTIN 18% ITC toggle & real-time dispatch) */}
-        {onToggleGstFilter && (
-          <div className="flex items-center gap-2 pt-1 overflow-x-auto scrollbar-none text-xs border-t border-slate-100">
-            <span className="text-[11px] font-bold text-slate-400 shrink-0 flex items-center gap-1">
-              <Filter className="w-3 h-3" />
-              <span>Filters:</span>
-            </span>
-
-            {/* GSTIN / 18% ITC Filter Toggle */}
-            <button
-              onClick={onToggleGstFilter}
-              className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold border transition cursor-pointer ${
-                isGstFilterActive
-                  ? 'bg-sky-700 text-white border-sky-800 shadow-2xs'
-                  : 'bg-sky-50 hover:bg-sky-100 text-sky-900 border-sky-200'
-              }`}
-            >
-              <Receipt className="w-3.5 h-3.5" />
-              <span>🧾 GST Invoice / 18% ITC Sellers Only</span>
-              {isGstFilterActive && (
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-300 ml-0.5"></span>
-              )}
-            </button>
-
-            {/* Express Dispatch tag */}
-            <div className="flex-shrink-0 flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200">
-              <Clock className="w-3 h-3 text-emerald-600" />
-              <span>⚡ Real-Time Local Dispatch</span>
-            </div>
-          </div>
-        )}
-
       </div>
     </div>
   );

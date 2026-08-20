@@ -45,11 +45,6 @@ export const ProductShelf: React.FC<ProductShelfProps> = ({
             <h2 className="text-base sm:text-lg font-black text-slate-900 tracking-tight">
               {title}
             </h2>
-            {badge && (
-              <span className="bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase px-2 py-0.5 rounded-full">
-                {badge}
-              </span>
-            )}
           </div>
           {subtitle && (
             <p className="text-xs text-slate-500 font-medium">

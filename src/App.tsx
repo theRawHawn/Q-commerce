@@ -803,12 +803,10 @@ export default function App() {
               HARDWARE
             </span>
             <span className="text-slate-300">•</span>
-            <span>Hyper-local Real-Time Hardware Delivery for Tradespeople & Businesses</span>
+            <span>Hyper-local Real-Time Hardware Delivery for Everyone</span>
           </div>
 
           <div className="flex items-center gap-4 text-[11px] text-slate-400">
-            <span className="text-emerald-700 font-bold">Local Hardware Store Marketplace</span>
-            <span>•</span>
             <span>100% Genuine Fittings</span>
             <span>•</span>
             <span>GSTR-3B Input Tax Credit (ITC)</span>
