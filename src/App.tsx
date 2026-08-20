@@ -775,7 +775,7 @@ export default function App() {
               </div>
               <div className="min-w-0">
                 <div className="font-black text-xs sm:text-sm leading-none truncate">
-                  {totalCartCount} {totalCartCount === 1 ? 'ITEM' : 'ITEMS'} • ₹{cartTotal.toFixed(0)}
+                  {totalCartCount} {totalCartCount === 1 ? 'ITEM' : 'ITEMS'}
                 </div>
                 <div className="text-[10px] text-emerald-200 font-bold mt-0.5 flex items-center gap-1 truncate">
                   <span>⚡ {liveEta.formattedEta} Express Delivery</span>
