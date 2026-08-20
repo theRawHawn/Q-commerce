@@ -41,6 +41,15 @@ import {
 } from 'lucide-react';
 import { CustomerProfile, CustomerGstProfile, Order, JobSiteLocation } from '../types';
 
+export interface SavedAddressItem {
+  id: string;
+  tag: 'Job Site' | 'Home' | 'Work' | 'Warehouse' | 'Other';
+  address: string;
+  floorUnit: string;
+  landmark: string;
+  isDefault: boolean;
+}
+
 interface ProfilePageProps {
   profile: CustomerProfile;
   onSaveProfile: (profile: CustomerProfile) => void;
@@ -101,11 +110,43 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
   const [gstError, setGstError] = useState<string | null>(null);
   const [gstSaved, setGstSaved] = useState(false);
 
-  // Address State
-  const [address, setAddress] = useState(profile.defaultAddress || '14th Main Rd, 4th Block, Koramangala, Bengaluru');
-  const [floorUnit, setFloorUnit] = useState(profile.floorUnit || 'Tower B, 4th Floor, Flat 402');
-  const [landmark, setLandmark] = useState(profile.landmark || 'Opposite BDA Complex, Gate #2');
-  const [addressSaved, setAddressSaved] = useState(false);
+  // Multiple Saved Addresses State
+  const [savedAddresses, setSavedAddresses] = useState<SavedAddressItem[]>([
+    {
+      id: 'addr_1',
+      tag: 'Job Site',
+      address: profile.defaultAddress || '14th Main Rd, 4th Block, Koramangala, Bengaluru',
+      floorUnit: profile.floorUnit || 'Tower B, 4th Floor, Flat 402',
+      landmark: profile.landmark || 'Opposite BDA Complex, Gate #2',
+      isDefault: true
+    },
+    {
+      id: 'addr_2',
+      tag: 'Warehouse',
+      address: 'Plot #42, Industrial Area, Peenya 1st Stage, Bengaluru',
+      floorUnit: 'Shed #3, Ground Floor',
+      landmark: 'Near TVS Cross Bus Stop',
+      isDefault: false
+    },
+    {
+      id: 'addr_3',
+      tag: 'Work',
+      address: '100ft Road, 12th Main, Indiranagar, Bengaluru',
+      floorUnit: 'Suite 201, Landmark Building',
+      landmark: 'Above Axis Bank Branch',
+      isDefault: false
+    }
+  ]);
+
+  const [isAddingAddress, setIsAddingAddress] = useState(false);
+  const [editingAddressId, setEditingAddressId] = useState<string | null>(null);
+
+  // Address Form State
+  const [formTag, setFormTag] = useState<'Job Site' | 'Home' | 'Work' | 'Warehouse' | 'Other'>('Job Site');
+  const [formAddress, setFormAddress] = useState('');
+  const [formFloorUnit, setFormFloorUnit] = useState('');
+  const [formLandmark, setFormLandmark] = useState('');
+  const [formSetDefault, setFormSetDefault] = useState(false);
 
   // Interactive Lists State
   const [bookmarks, setBookmarks] = useState([
@@ -145,9 +186,6 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
     if (profile.name) setName(profile.name);
     if (profile.phone) setPhone(profile.phone);
     if (profile.email) setEmail(profile.email);
-    if (profile.defaultAddress) setAddress(profile.defaultAddress);
-    if (profile.floorUnit) setFloorUnit(profile.floorUnit);
-    if (profile.landmark) setLandmark(profile.landmark);
     if (profile.gstProfile?.gstin) setGstin(profile.gstProfile.gstin);
     if (profile.gstProfile?.legalBusinessName) setLegalName(profile.gstProfile.legalBusinessName);
   }, [profile]);
@@ -165,6 +203,8 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
     }
     setGstError(null);
 
+    const defaultAddressObj = savedAddresses.find(a => a.isDefault) || savedAddresses[0];
+
     const updatedProfile: CustomerProfile = {
       ...profile,
       name,
@@ -175,7 +215,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
         gstin: clean,
         legalBusinessName: legalName,
         tradeName: tradeName,
-        billingAddress: address,
+        billingAddress: defaultAddressObj ? defaultAddressObj.address : '14th Main Rd, 4th Block, Koramangala, Bengaluru',
         state: 'Karnataka',
         stateCode: '29',
         contactPerson: name,
@@ -191,31 +231,151 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
     }, 1000);
   };
 
-  const handleSaveAddress = () => {
-    const updatedProfile: CustomerProfile = {
-      ...profile,
-      defaultAddress: address,
-      floorUnit: floorUnit,
-      landmark: landmark
-    };
-    onSaveProfile(updatedProfile);
-    if (onUpdateJobSite) {
-      onUpdateJobSite({
-        address,
-        floorUnit,
-        landmark,
-        siteContactName: name,
-        sitePhone: phone,
-        jobTag: "Default Jobsite",
-        coordinates: { lat: 12.9352, lng: 77.6245 }
+  // Address Book Handlers
+  const handleSetDefaultAddress = (id: string) => {
+    const updated = savedAddresses.map(a => ({
+      ...a,
+      isDefault: a.id === id
+    }));
+    setSavedAddresses(updated);
+
+    const target = updated.find(a => a.id === id);
+    if (target) {
+      onSaveProfile({
+        ...profile,
+        defaultAddress: target.address,
+        floorUnit: target.floorUnit,
+        landmark: target.landmark
+      });
+      if (onUpdateJobSite) {
+        onUpdateJobSite({
+          address: target.address,
+          floorUnit: target.floorUnit,
+          landmark: target.landmark,
+          siteContactName: name,
+          sitePhone: phone,
+          jobTag: target.tag,
+          coordinates: { lat: 12.9352, lng: 77.6245 }
+        });
+      }
+      showToast(`Default drop location set to "${target.tag}"`);
+    }
+  };
+
+  const handleDeleteAddress = (id: string) => {
+    if (savedAddresses.length <= 1) {
+      showToast('You must keep at least 1 saved address in your address book.');
+      return;
+    }
+    const target = savedAddresses.find(a => a.id === id);
+    const updated = savedAddresses.filter(a => a.id !== id);
+
+    // If deleted item was default, make the first remaining address default
+    if (target?.isDefault && updated.length > 0) {
+      updated[0].isDefault = true;
+      onSaveProfile({
+        ...profile,
+        defaultAddress: updated[0].address,
+        floorUnit: updated[0].floorUnit,
+        landmark: updated[0].landmark
       });
     }
-    setAddressSaved(true);
-    showToast('Address book updated!');
-    setTimeout(() => {
-      setAddressSaved(false);
-      setActiveSubView('main');
-    }, 1000);
+
+    setSavedAddresses(updated);
+    showToast('Address removed from address book');
+  };
+
+  const handleStartAddAddress = () => {
+    setEditingAddressId(null);
+    setFormTag('Job Site');
+    setFormAddress('');
+    setFormFloorUnit('');
+    setFormLandmark('');
+    setFormSetDefault(savedAddresses.length === 0);
+    setIsAddingAddress(true);
+  };
+
+  const handleStartEditAddress = (item: SavedAddressItem) => {
+    setEditingAddressId(item.id);
+    setFormTag(item.tag);
+    setFormAddress(item.address);
+    setFormFloorUnit(item.floorUnit);
+    setFormLandmark(item.landmark);
+    setFormSetDefault(item.isDefault);
+    setIsAddingAddress(true);
+  };
+
+  const handleSaveAddressForm = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formAddress.trim()) {
+      showToast('Please enter a street address.');
+      return;
+    }
+
+    let updatedList: SavedAddressItem[];
+
+    if (editingAddressId) {
+      // Edit mode
+      updatedList = savedAddresses.map(item => {
+        if (item.id === editingAddressId) {
+          return {
+            ...item,
+            tag: formTag,
+            address: formAddress.trim(),
+            floorUnit: formFloorUnit.trim(),
+            landmark: formLandmark.trim(),
+            isDefault: formSetDefault ? true : item.isDefault
+          };
+        }
+        return formSetDefault ? { ...item, isDefault: false } : item;
+      });
+      showToast('Address updated successfully!');
+    } else {
+      // Add mode
+      const newAddr: SavedAddressItem = {
+        id: 'addr_' + Date.now(),
+        tag: formTag,
+        address: formAddress.trim(),
+        floorUnit: formFloorUnit.trim(),
+        landmark: formLandmark.trim(),
+        isDefault: formSetDefault || savedAddresses.length === 0
+      };
+
+      if (formSetDefault) {
+        updatedList = savedAddresses.map(a => ({ ...a, isDefault: false }));
+        updatedList.unshift(newAddr);
+      } else {
+        updatedList = [newAddr, ...savedAddresses];
+      }
+      showToast('New drop address added!');
+    }
+
+    setSavedAddresses(updatedList);
+
+    // Sync if marked as default
+    const def = updatedList.find(a => a.isDefault);
+    if (def) {
+      onSaveProfile({
+        ...profile,
+        defaultAddress: def.address,
+        floorUnit: def.floorUnit,
+        landmark: def.landmark
+      });
+      if (onUpdateJobSite) {
+        onUpdateJobSite({
+          address: def.address,
+          floorUnit: def.floorUnit,
+          landmark: def.landmark,
+          siteContactName: name,
+          sitePhone: phone,
+          jobTag: def.tag,
+          coordinates: { lat: 12.9352, lng: 77.6245 }
+        });
+      }
+    }
+
+    setIsAddingAddress(false);
+    setEditingAddressId(null);
   };
 
   const handleSavePersonal = () => {
@@ -487,86 +647,225 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
         )}
 
         {/* ------------------------------------------ */}
-        {/* SUBVIEW: ADDRESS BOOK                      */}
+        {/* SUBVIEW: ADDRESS BOOK (MULTIPLE ADDRESSES) */}
         {/* ------------------------------------------ */}
         {activeSubView === 'address_book' && (
           <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 space-y-4 animate-in slide-in-from-right-4 duration-200">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div className="flex items-center gap-2">
                 <MapPin className="w-5 h-5 text-amber-600" />
-                <h3 className="font-black text-slate-900 text-base">Saved Drop Locations</h3>
+                <h3 className="font-black text-slate-900 text-base">Address Book ({savedAddresses.length})</h3>
               </div>
               <button
-                onClick={() => setActiveSubView('main')}
+                onClick={() => {
+                  setIsAddingAddress(false);
+                  setActiveSubView('main');
+                }}
                 className="text-xs font-bold text-slate-500 hover:text-slate-900 underline"
               >
                 Back
               </button>
             </div>
 
-            <div className="space-y-3">
-              <div>
-                <label className="block text-xs font-bold text-slate-800 mb-1">
-                  Street / Area Address
-                </label>
-                <input
-                  type="text"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  placeholder="14th Main Rd, 4th Block, Koramangala, Bengaluru"
-                  className="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs text-slate-900 font-bold focus:outline-none focus:ring-2 focus:ring-amber-500"
-                />
-              </div>
+            {/* List of Saved Addresses */}
+            {!isAddingAddress ? (
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <p className="text-xs text-slate-500 font-medium">
+                    Manage your jobsite, warehouse, and office delivery addresses.
+                  </p>
+                  <button
+                    onClick={handleStartAddAddress}
+                    className="bg-slate-950 hover:bg-slate-900 text-amber-300 font-black text-xs px-3 py-2 rounded-xl flex items-center gap-1.5 shadow-2xs transition cursor-pointer shrink-0"
+                  >
+                    <Plus className="w-4 h-4" />
+                    <span>Add New Address</span>
+                  </button>
+                </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-3 pt-1">
+                  {savedAddresses.map((addr) => (
+                    <div
+                      key={addr.id}
+                      className={`p-4 rounded-xl border transition-all ${
+                        addr.isDefault
+                          ? 'bg-amber-50/60 border-amber-300 shadow-xs'
+                          : 'bg-slate-50 border-slate-200 hover:border-slate-300'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="bg-slate-900 text-amber-300 text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider">
+                              {addr.tag}
+                            </span>
+                            {addr.isDefault && (
+                              <span className="bg-amber-400 text-slate-950 text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider flex items-center gap-1">
+                                <Check className="w-3 h-3 stroke-[3]" /> Default Drop Location
+                              </span>
+                            )}
+                          </div>
+                          <h4 className="text-xs sm:text-sm font-extrabold text-slate-900 leading-snug pt-0.5">
+                            {addr.address}
+                          </h4>
+                          <p className="text-xs text-slate-600 font-medium">
+                            {addr.floorUnit}{addr.landmark ? ` • Landmark: ${addr.landmark}` : ''}
+                          </p>
+                        </div>
+
+                        <div className="flex items-center gap-1 shrink-0">
+                          <button
+                            onClick={() => handleStartEditAddress(addr)}
+                            className="p-1.5 text-slate-500 hover:text-slate-900 hover:bg-slate-200/60 rounded-lg transition"
+                            title="Edit Address"
+                          >
+                            <Edit2 className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteAddress(addr.id)}
+                            className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
+                            title="Delete Address"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+
+                      {!addr.isDefault && (
+                        <div className="mt-3 pt-2.5 border-t border-slate-200/80 flex justify-end">
+                          <button
+                            onClick={() => handleSetDefaultAddress(addr.id)}
+                            className="text-xs font-bold text-slate-700 hover:text-slate-950 bg-white border border-slate-300 hover:border-slate-400 px-3 py-1.5 rounded-lg transition cursor-pointer shadow-2xs"
+                          >
+                            Set as Default Delivery Location
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                {onOpenLocationModal && (
+                  <button
+                    type="button"
+                    onClick={onOpenLocationModal}
+                    className="w-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs py-3 rounded-xl transition cursor-pointer flex items-center justify-center gap-2 mt-2"
+                  >
+                    <MapPin className="w-4 h-4 text-amber-600" />
+                    <span>Pick & Set Address on Live Map</span>
+                  </button>
+                )}
+              </div>
+            ) : (
+              /* Add / Edit Address Form */
+              <form onSubmit={handleSaveAddressForm} className="space-y-4 pt-1">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-xs font-black uppercase tracking-wider text-slate-800">
+                    {editingAddressId ? 'Edit Address' : 'Add New Address'}
+                  </h4>
+                  <button
+                    type="button"
+                    onClick={() => setIsAddingAddress(false)}
+                    className="text-xs font-bold text-slate-500 hover:text-slate-800"
+                  >
+                    Cancel
+                  </button>
+                </div>
+
                 <div>
-                  <label className="block text-xs font-bold text-slate-800 mb-1">
-                    Tower / Floor / Flat #
+                  <label className="block text-xs font-bold text-slate-800 mb-1.5">
+                    Address Tag / Label
                   </label>
-                  <input
-                    type="text"
-                    value={floorUnit}
-                    onChange={(e) => setFloorUnit(e.target.value)}
-                    placeholder="Tower B, 4th Floor, Flat 402"
-                    className="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs text-slate-900 font-bold focus:outline-none focus:ring-2 focus:ring-amber-500"
-                  />
+                  <div className="flex gap-2 flex-wrap">
+                    {(['Job Site', 'Home', 'Work', 'Warehouse', 'Other'] as const).map((tagOption) => (
+                      <button
+                        key={tagOption}
+                        type="button"
+                        onClick={() => setFormTag(tagOption)}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-bold transition ${
+                          formTag === tagOption
+                            ? 'bg-slate-950 text-amber-300 font-black'
+                            : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                        }`}
+                      >
+                        {tagOption}
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold text-slate-800 mb-1">
-                    Landmark / Gate Instructions
+                    Street / Area Address *
                   </label>
                   <input
                     type="text"
-                    value={landmark}
-                    onChange={(e) => setLandmark(e.target.value)}
-                    placeholder="Opposite BDA Complex, Gate #2"
+                    required
+                    value={formAddress}
+                    onChange={(e) => setFormAddress(e.target.value)}
+                    placeholder="e.g. 14th Main Rd, 4th Block, Koramangala, Bengaluru"
                     className="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs text-slate-900 font-bold focus:outline-none focus:ring-2 focus:ring-amber-500"
                   />
                 </div>
-              </div>
-            </div>
 
-            <div className="flex gap-2">
-              {onOpenLocationModal && (
-                <button
-                  type="button"
-                  onClick={onOpenLocationModal}
-                  className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs py-3 rounded-xl transition cursor-pointer"
-                >
-                  Select on Map
-                </button>
-              )}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-800 mb-1">
+                      Floor / Tower / Unit #
+                    </label>
+                    <input
+                      type="text"
+                      value={formFloorUnit}
+                      onChange={(e) => setFormFloorUnit(e.target.value)}
+                      placeholder="e.g. Tower B, 4th Floor"
+                      className="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs text-slate-900 font-bold focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    />
+                  </div>
 
-              <button
-                type="button"
-                onClick={handleSaveAddress}
-                className="flex-1 bg-slate-950 hover:bg-slate-900 text-white font-black text-xs py-3 rounded-xl transition cursor-pointer flex items-center justify-center gap-1.5"
-              >
-                {addressSaved ? <Check className="w-4 h-4 text-amber-400" /> : null}
-                <span>{addressSaved ? 'Saved!' : 'Save Address'}</span>
-              </button>
-            </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-800 mb-1">
+                      Landmark / Gate Instructions
+                    </label>
+                    <input
+                      type="text"
+                      value={formLandmark}
+                      onChange={(e) => setFormLandmark(e.target.value)}
+                      placeholder="e.g. Near BDA Complex"
+                      className="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs text-slate-900 font-bold focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 pt-1">
+                  <input
+                    type="checkbox"
+                    id="setDefaultCheck"
+                    checked={formSetDefault}
+                    onChange={(e) => setFormSetDefault(e.target.checked)}
+                    className="w-4 h-4 text-amber-500 rounded border-slate-300 focus:ring-amber-400"
+                  />
+                  <label htmlFor="setDefaultCheck" className="text-xs font-bold text-slate-800 cursor-pointer select-none">
+                    Set as my primary default delivery address
+                  </label>
+                </div>
+
+                <div className="flex gap-2 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setIsAddingAddress(false)}
+                    className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs py-3 rounded-xl transition cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="flex-1 bg-slate-950 hover:bg-slate-900 text-white font-black text-xs py-3 rounded-xl transition cursor-pointer"
+                  >
+                    {editingAddressId ? 'Save Changes' : 'Add to Address Book'}
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         )}
 
@@ -681,7 +980,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div className="flex items-center gap-2">
                 <Gift className="w-5 h-5 text-amber-600" />
-                <h3 className="font-black text-slate-900 text-base">E-Gift Cards & Corporate Vouchers</h3>
+                <h3 className="font-black text-slate-900 text-base">Gift Cards &amp; Corporate Vouchers</h3>
               </div>
               <button
                 onClick={() => setActiveSubView('main')}
@@ -691,32 +990,78 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
               </button>
             </div>
 
-            <div className="p-4 bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 rounded-xl shadow-xs space-y-1">
-              <span className="text-[10px] font-black uppercase tracking-wider bg-slate-950 text-amber-300 px-2 py-0.5 rounded">
-                Active Balance
-              </span>
-              <p className="text-2xl font-black font-mono">₹{claimedBalance}</p>
-              <p className="text-xs font-bold">Usable automatically at checkout for hardware orders.</p>
+            {/* Balance Card */}
+            <div className="p-4 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 text-white rounded-xl shadow-md border border-amber-400/30 flex justify-between items-center">
+              <div className="space-y-1">
+                <span className="text-[10px] font-black uppercase tracking-wider bg-amber-400 text-slate-950 px-2 py-0.5 rounded">
+                  Gift Card Balance
+                </span>
+                <p className="text-3xl font-black font-mono text-amber-300">₹{claimedBalance}</p>
+                <p className="text-xs text-slate-300 font-medium">Applied automatically at instant checkout</p>
+              </div>
+              <Sparkles className="w-10 h-10 text-amber-400 opacity-80" />
             </div>
 
-            <form onSubmit={handleClaimGiftCard} className="space-y-2">
-              <label className="block text-xs font-bold text-slate-800">Enter Gift Card / Promo Code</label>
+            {/* Redeem Gift Code Form */}
+            <form onSubmit={handleClaimGiftCard} className="space-y-2 pt-1">
+              <label className="block text-xs font-bold text-slate-800">Claim Gift Card / Voucher Code</label>
               <div className="flex gap-2">
                 <input
                   type="text"
                   placeholder="e.g. BLINK2026"
                   value={giftCode}
                   onChange={(e) => setGiftCode(e.target.value)}
-                  className="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 font-mono text-xs font-bold uppercase text-slate-900 focus:outline-none"
+                  className="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 font-mono text-xs font-bold uppercase text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
                 />
                 <button
                   type="submit"
-                  className="bg-slate-950 hover:bg-slate-800 text-white text-xs font-black px-4 py-2.5 rounded-xl cursor-pointer"
+                  className="bg-slate-950 hover:bg-slate-900 text-amber-300 text-xs font-black px-4 py-2.5 rounded-xl transition cursor-pointer shadow-2xs"
                 >
-                  Redeem
+                  Claim Code
                 </button>
               </div>
             </form>
+
+            {/* Available Vouchers Section */}
+            <div className="space-y-2 pt-2 border-t border-slate-100">
+              <h4 className="text-xs font-black text-slate-900 uppercase tracking-wider">
+                Available Contractor Vouchers
+              </h4>
+
+              <div className="space-y-2">
+                {[
+                  { title: '₹500 Site Welcome Gift Voucher', code: 'BLINK2026', value: '₹500 Credit', expires: 'Valid till 31 Dec 2026' },
+                  { title: '₹250 B2B First Order Bonus', code: 'B2B250', value: '₹250 Credit', expires: 'Valid till 30 Nov 2026' },
+                  { title: '₹1000 Electrical Bulk Order Voucher', code: 'ELEC1000', value: '₹1,000 Credit', expires: 'Valid till 15 Nov 2026' }
+                ].map((voucher, idx) => (
+                  <div key={idx} className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between gap-3">
+                    <div className="space-y-0.5">
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono font-black text-xs bg-amber-100 text-amber-900 px-2 py-0.5 rounded border border-amber-300/80">
+                          {voucher.code}
+                        </span>
+                        <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100 px-1.5 py-0.5 rounded">
+                          {voucher.value}
+                        </span>
+                      </div>
+                      <h5 className="text-xs font-extrabold text-slate-900 pt-0.5">{voucher.title}</h5>
+                      <p className="text-[10px] text-slate-500 font-medium">{voucher.expires}</p>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setGiftCode(voucher.code);
+                        showToast(`Voucher code ${voucher.code} copied to input!`);
+                      }}
+                      className="bg-slate-950 hover:bg-slate-800 text-white font-bold text-xs px-3 py-2 rounded-lg shrink-0 transition"
+                    >
+                      Use Code
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
 
@@ -1308,18 +1653,6 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
                   <ChevronRight className="w-4 h-4 text-slate-400" />
                 </button>
 
-                {/* E-gift cards */}
-                <button
-                  onClick={() => setActiveSubView('gift_cards')}
-                  className="w-full px-4 py-3.5 flex items-center justify-between hover:bg-slate-50 transition text-left cursor-pointer"
-                >
-                  <div className="flex items-center gap-3">
-                    <Gift className="w-4 h-4 text-slate-700" />
-                    <span className="text-xs sm:text-sm font-bold text-slate-800">E-gift cards</span>
-                  </div>
-                  <ChevronRight className="w-4 h-4 text-slate-400" />
-                </button>
-
                 {/* Your prescriptions / Safety Compliance */}
                 <button
                   onClick={() => setActiveSubView('compliance')}
@@ -1355,14 +1688,14 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
                   <ChevronRight className="w-4 h-4 text-slate-400" />
                 </button>
 
-                {/* Claim Gift card */}
+                {/* Gift cards & Corporate Vouchers */}
                 <button
                   onClick={() => setActiveSubView('gift_cards')}
                   className="w-full px-4 py-3.5 flex items-center justify-between hover:bg-slate-50 transition text-left cursor-pointer"
                 >
                   <div className="flex items-center gap-3">
                     <Gift className="w-4 h-4 text-slate-700" />
-                    <span className="text-xs sm:text-sm font-bold text-slate-800">Claim Gift card</span>
+                    <span className="text-xs sm:text-sm font-bold text-slate-800">Gift cards &amp; Corporate Vouchers</span>
                   </div>
                   <ChevronRight className="w-4 h-4 text-slate-400" />
                 </button>

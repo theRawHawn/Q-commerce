@@ -604,29 +604,15 @@ export default function App() {
             
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
               <div>
-                <div className="flex items-center gap-2 flex-wrap">
-                  <h2 className="text-base sm:text-lg font-black text-slate-900 flex items-center gap-2">
-                    <span>
-                      {selectedCategory !== 'all' ? `${selectedCategory.toUpperCase()} ESSENTIALS` : (isGstFilterActive ? 'GST VERIFIED SELLERS (18% ITC ELIGIBLE)' : 'Search Results')}
-                    </span>
-                    <span className="text-xs font-medium text-slate-400 font-mono">
-                      ({filteredProducts.length} items available)
-                    </span>
-                  </h2>
-                  <button
-                    onClick={() => {
-                      setSelectedCategory('all');
-                      setSearchQuery('');
-                      setSizeFilter('all');
-                      setIsGstFilterActive(false);
-                    }}
-                    className="bg-rose-100 hover:bg-rose-200 text-rose-800 border border-rose-300/80 text-xs font-black px-2.5 py-1 rounded-lg flex items-center gap-1 transition cursor-pointer shadow-2xs"
-                    title="Cancel category & return to main page"
-                  >
-                    <span>✕ Cancel &amp; Return to Main</span>
-                  </button>
-                </div>
-                <p className="text-xs text-slate-500 mt-0.5">
+                <h2 className="text-base sm:text-lg font-black text-slate-900 flex items-center gap-2">
+                  <span>
+                    {selectedCategory !== 'all' ? `${selectedCategory.toUpperCase()} ESSENTIALS` : (isGstFilterActive ? 'GST VERIFIED SELLERS (18% ITC ELIGIBLE)' : 'Search Results')}
+                  </span>
+                  <span className="text-xs font-medium text-slate-400 font-mono">
+                    ({filteredProducts.length} items available)
+                  </span>
+                </h2>
+                <p className="text-xs text-slate-500">
                   All items stocked in local verified hardware partner stores ready for swift courier dispatch
                 </p>
               </div>
