@@ -955,31 +955,9 @@ export default function App() {
         )}
 
         {/* Blinkit & Instamart Signature End-of-Feed Watermark Footer */}
-        <div id="footer-watermark" className="pt-12 pb-20 sm:pt-16 sm:pb-24 w-full flex flex-col items-center justify-center text-center select-none space-y-3 px-4 mx-auto">
-          {/* Dynamic Electric Surge & Spark Animation for Lightning Bolt */}
-          <motion.span
-            animate={{
-              scale: [1, 1.25, 0.95, 1.18, 1],
-              rotate: [0, -8, 10, -4, 0],
-              filter: [
-                'drop-shadow(0 0 0px rgba(245, 158, 11, 0))',
-                'drop-shadow(0 0 14px rgba(245, 158, 11, 0.8))',
-                'drop-shadow(0 0 5px rgba(245, 158, 11, 0.35))',
-                'drop-shadow(0 0 18px rgba(245, 158, 11, 0.95))',
-                'drop-shadow(0 0 0px rgba(245, 158, 11, 0))'
-              ]
-            }}
-            transition={{
-              duration: 2.4,
-              repeat: Infinity,
-              repeatType: 'loop',
-              ease: 'easeInOut',
-              times: [0, 0.2, 0.35, 0.5, 1]
-            }}
-            className="text-amber-500 inline-block text-3xl sm:text-5xl md:text-6xl leading-none select-none cursor-default"
-          >
-            ⚡
-          </motion.span>
+        <div id="footer-watermark" className="pt-12 pb-20 sm:pt-16 sm:pb-24 w-full flex flex-col items-center justify-center text-center select-none space-y-2 px-4 mx-auto">
+          {/* Subtle Pulse Lightning Bolt Icon above text */}
+          <span className="text-amber-500 inline-block text-3xl sm:text-5xl md:text-6xl leading-none animate-pulse">⚡</span>
 
           {/* Subtle Watermark Headline (Hardware in Minutes) */}
           <h2 className="text-2xl min-[380px]:text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-slate-300/80 leading-normal sm:leading-none inline-flex items-center justify-center text-center select-none">
