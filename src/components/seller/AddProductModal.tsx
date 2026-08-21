@@ -114,12 +114,19 @@ export const AddProductModal: React.FC<AddProductModalProps> = ({
                 onChange={(e) => setFormData({ ...formData, category: e.target.value as TradeCategory })}
                 className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 font-medium"
               >
-                <option value="plumbing">Plumbing</option>
-                <option value="electrical">Electrical</option>
-                <option value="fasteners">Fasteners & Anchors</option>
-                <option value="adhesives">Adhesives & Chemicals</option>
+                <option value="lighting">Lighting & Bulbs (Tubelights, Bulbs)</option>
+                <option value="fans">Fans & Regulators (Ceiling, Exhaust)</option>
+                <option value="switches">Switches & Sockets (Buttons, Modular)</option>
+                <option value="bathroom_fittings">Bathroom Fittings (Showers, Faucets)</option>
+                <option value="kitchen_fittings">Kitchen Fittings (Sink Taps, Drainers)</option>
+                <option value="plumbing">Plumbing & Pipes</option>
+                <option value="electrical">Electrical & Wires</option>
+                <option value="carpentry">Carpentry & Locks</option>
+                <option value="screws">Screws & Anchors</option>
+                <option value="cutting_discs">Cutting Discs</option>
+                <option value="cutters">Cutters & Snips</option>
+                <option value="adhesives">Adhesives & PU Foam</option>
                 <option value="tools">Tools & Bits</option>
-                <option value="carpentry">Carpentry & Wood</option>
                 <option value="safety">Safety Gear</option>
               </select>
             </div>

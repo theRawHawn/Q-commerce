@@ -2,32 +2,44 @@ import React from 'react';
 import { 
   Droplet, 
   Zap, 
-  Hammer, 
-  Anchor, 
-  Wrench, 
   Layers, 
   ShieldCheck, 
-  Sparkles,
-  LayoutGrid
+  LayoutGrid,
+  Lightbulb,
+  Fan,
+  ToggleRight,
+  ShowerHead,
+  UtensilsCrossed,
+  DoorOpen,
+  Disc,
+  Scissors
 } from 'lucide-react';
+import { ScrewNutIcon, CuttingMachineDiscIcon, CrossedHammerWrenchIcon } from './CustomIcons';
 import { TradeCategory } from '../types';
 
 interface TradePersonaBarProps {
   selectedCategory: TradeCategory;
   onSelectCategory: (cat: TradeCategory) => void;
-  activeTradeRole: string;
-  onSelectTradeRole: (role: string) => void;
+  activeTradeRole?: string;
+  onSelectTradeRole?: (role: string) => void;
 }
 
 const TRADES = [
   { id: 'all', label: 'All Catalog', icon: LayoutGrid, category: 'all' as TradeCategory, tag: '500+ SKUs' },
-  { id: 'plumbing', label: 'Plumbing', icon: Droplet, category: 'plumbing' as TradeCategory, color: 'text-sky-400', tag: 'Valves, CPVC, Hoses' },
-  { id: 'electrical', label: 'Electrical', icon: Zap, category: 'electrical' as TradeCategory, color: 'text-amber-400', tag: 'MCBs, Wires, Sockets' },
-  { id: 'fasteners', label: 'Fasteners & Plugs', icon: Anchor, category: 'fasteners' as TradeCategory, color: 'text-emerald-400', tag: 'Rawl Plugs, Screws' },
-  { id: 'tools', label: 'Tools & Bits', icon: Wrench, category: 'tools' as TradeCategory, color: 'text-orange-400', tag: 'SDS Bits, Blades, Pliers' },
-  { id: 'adhesives', label: 'Adhesives & Sealants', icon: Layers, category: 'adhesives' as TradeCategory, color: 'text-purple-400', tag: 'Solvent, Epoxy, RTV' },
-  { id: 'carpentry', label: 'Carpentry', icon: Hammer, category: 'carpentry' as TradeCategory, color: 'text-yellow-400', tag: 'Hinges, Wood Glue' },
-  { id: 'safety', label: 'Safety & Gloves', icon: ShieldCheck, category: 'safety' as TradeCategory, color: 'text-teal-400', tag: 'Goggles, Nitrile' }
+  { id: 'lighting', label: 'Lighting & Bulbs', icon: Lightbulb, category: 'lighting' as TradeCategory, color: 'text-amber-400', tag: 'Tubelights, Bulbs' },
+  { id: 'fans', label: 'Fans & Regulators', icon: Fan, category: 'fans' as TradeCategory, color: 'text-cyan-400', tag: 'Ceiling, Exhaust' },
+  { id: 'switches', label: 'Switches & Sockets', icon: ToggleRight, category: 'switches' as TradeCategory, color: 'text-indigo-400', tag: 'Buttons, Modular' },
+  { id: 'bathroom_fittings', label: 'Bathroom Fittings', icon: ShowerHead, category: 'bathroom_fittings' as TradeCategory, color: 'text-sky-400', tag: 'Showers, Faucets' },
+  { id: 'kitchen_fittings', label: 'Kitchen Fittings', icon: UtensilsCrossed, category: 'kitchen_fittings' as TradeCategory, color: 'text-emerald-400', tag: 'Sink Taps, Drainers' },
+  { id: 'plumbing', label: 'Plumbing', icon: Droplet, category: 'plumbing' as TradeCategory, color: 'text-blue-400', tag: 'Valves, CPVC, Hoses' },
+  { id: 'electrical', label: 'Electrical', icon: Zap, category: 'electrical' as TradeCategory, color: 'text-yellow-400', tag: 'MCBs, Wires, DBs' },
+  { id: 'carpentry', label: 'Carpentry', icon: DoorOpen, category: 'carpentry' as TradeCategory, color: 'text-orange-400', tag: 'Hinges, Locks, Slides' },
+  { id: 'screws', label: 'Screws & Nuts', icon: ScrewNutIcon, category: 'screws' as TradeCategory, color: 'text-teal-400', tag: 'Rawl Plugs, Nuts, Gitti' },
+  { id: 'cutting_discs', label: 'Cutters & Discs', icon: CuttingMachineDiscIcon, category: 'cutting_discs' as TradeCategory, color: 'text-red-400', tag: 'Angle Grinders, Discs' },
+  { id: 'cutters', label: 'Snips & Cutters', icon: Scissors, category: 'cutters' as TradeCategory, color: 'text-pink-400', tag: 'Tile Cutters, Snips' },
+  { id: 'adhesives', label: 'Adhesives & PU Foam', icon: Layers, category: 'adhesives' as TradeCategory, color: 'text-purple-400', tag: 'Solvent, Epoxy, RTV' },
+  { id: 'tools', label: 'Tools & Bits', icon: CrossedHammerWrenchIcon, category: 'tools' as TradeCategory, color: 'text-amber-500', tag: 'SDS Bits, Blades, Pliers' },
+  { id: 'safety', label: 'Safety Gear', icon: ShieldCheck, category: 'safety' as TradeCategory, color: 'text-emerald-400', tag: 'Goggles, Nitrile' }
 ];
 
 export const TradePersonaBar: React.FC<TradePersonaBarProps> = ({

@@ -29,6 +29,8 @@ import { HardwareProduct, TradeCategory, CartItem, JobSiteLocation, Order, Order
 import { INITIAL_PRODUCTS } from './data/products';
 import { Navbar } from './components/Navbar';
 import { CategoryChips } from './components/CategoryChips';
+import { SubCategoryBar } from './components/SubCategoryBar';
+import { getMainCategoryConfig } from './data/categories';
 import { BlinkitBanner } from './components/BlinkitBanner';
 import { ProductCard } from './components/ProductCard';
 import { ProductShelf } from './components/ProductShelf';
@@ -119,9 +121,34 @@ export default function App() {
   });
 
   const [selectedCategory, setSelectedCategory] = useState<TradeCategory>('all');
+  const [selectedSubCategory, setSelectedSubCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [sizeFilter, setSizeFilter] = useState<string>('all');
   const [isGstFilterActive, setIsGstFilterActive] = useState(false);
+
+  // Hierarchical category selection handler
+  const handleSelectCategory = (cat: TradeCategory, subCat: string = 'all') => {
+    if (['lighting', 'fans', 'switches', 'electrical'].includes(cat)) {
+      setSelectedCategory('electrical');
+      setSelectedSubCategory(cat === 'electrical' ? subCat : cat);
+    } else if (['bathroom_fittings', 'plumbing'].includes(cat)) {
+      setSelectedCategory('plumbing');
+      setSelectedSubCategory(cat === 'plumbing' ? subCat : cat);
+    } else if (cat === 'kitchen_fittings') {
+      setSelectedCategory('kitchen_fittings');
+      setSelectedSubCategory(subCat);
+    } else if (['screws', 'fasteners'].includes(cat)) {
+      setSelectedCategory('screws');
+      setSelectedSubCategory(subCat !== 'all' ? subCat : (cat === 'fasteners' ? 'fasteners' : 'all'));
+    } else if (['tools', 'cutting_discs', 'cutters'].includes(cat)) {
+      setSelectedCategory('tools');
+      setSelectedSubCategory(subCat !== 'all' ? subCat : (cat !== 'tools' ? cat : 'all'));
+    } else {
+      setSelectedCategory(cat);
+      setSelectedSubCategory(subCat);
+    }
+    setSearchQuery('');
+  };
   
   // Cart state
   const [cart, setCart] = useState<CartItem[]>(() => {
@@ -397,10 +424,26 @@ export default function App() {
     });
   }, []);
 
-  // Filter products by category, search, size, and GSTIN
+  // Filter products by category, subcategory, search, size, and GSTIN
   const filteredProducts = useMemo(() => {
+    const mainConfig = getMainCategoryConfig(selectedCategory);
+
     return products.filter(p => {
-      const matchCat = selectedCategory === 'all' || p.category === selectedCategory;
+      // Main category and Subcategory matching
+      let matchCat = selectedCategory === 'all';
+      if (!matchCat) {
+        if (selectedSubCategory !== 'all') {
+          const subItem = mainConfig.subcategories.find(s => s.id === selectedSubCategory);
+          if (subItem && subItem.filterFn) {
+            matchCat = subItem.filterFn(p);
+          } else {
+            matchCat = p.category === selectedSubCategory || mainConfig.productCategories.includes(p.category);
+          }
+        } else {
+          matchCat = mainConfig.productCategories.includes(p.category);
+        }
+      }
+
       const query = searchQuery.toLowerCase().trim();
       const matchSearch = !query || 
         p.name.toLowerCase().includes(query) ||
@@ -416,11 +459,31 @@ export default function App() {
 
       return matchCat && matchSearch && matchSize && matchGst;
     });
-  }, [products, selectedCategory, searchQuery, sizeFilter, isGstFilterActive]);
+  }, [products, selectedCategory, selectedSubCategory, searchQuery, sizeFilter, isGstFilterActive]);
 
   // Shelf group products
   const emergencyRescueProducts = useMemo(() => {
     return products.filter(p => p.badge === 'High Demand' || p.id === 'plumb-01' || p.id === 'plumb-03' || p.id === 'elec-01' || p.id === 'adhes-04' || p.id === 'fast-01');
+  }, [products]);
+
+  const lightingProducts = useMemo(() => {
+    return products.filter(p => p.category === 'lighting');
+  }, [products]);
+
+  const fanProducts = useMemo(() => {
+    return products.filter(p => p.category === 'fans');
+  }, [products]);
+
+  const switchProducts = useMemo(() => {
+    return products.filter(p => p.category === 'switches');
+  }, [products]);
+
+  const bathroomProducts = useMemo(() => {
+    return products.filter(p => p.category === 'bathroom_fittings');
+  }, [products]);
+
+  const kitchenProducts = useMemo(() => {
+    return products.filter(p => p.category === 'kitchen_fittings');
   }, [products]);
 
   const plumbingProducts = useMemo(() => {
@@ -432,7 +495,7 @@ export default function App() {
   }, [products]);
 
   const fastenerProducts = useMemo(() => {
-    return products.filter(p => p.category === 'fasteners');
+    return products.filter(p => p.category === 'fasteners' || p.category === 'screws');
   }, [products]);
 
   const adhesiveProducts = useMemo(() => {
@@ -440,7 +503,7 @@ export default function App() {
   }, [products]);
 
   const toolProducts = useMemo(() => {
-    return products.filter(p => p.category === 'tools' || p.category === 'safety' || p.category === 'carpentry');
+    return products.filter(p => p.category === 'tools' || p.category === 'safety' || p.category === 'carpentry' || p.category === 'cutting_discs' || p.category === 'cutters');
   }, [products]);
 
   const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -518,34 +581,33 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#F4F6F8] text-slate-900 flex flex-col font-sans antialiased selection:bg-emerald-600 selection:text-white rounded-none">
       
-      {/* Signature Blinkit Topbar */}
-      <Navbar
-        jobSite={jobSite}
-        customerProfile={customerProfile}
-        onOpenLocationModal={() => setIsJobsiteModalOpen(true)}
-        onOpenProfileModal={() => setIsProfileModalOpen(true)}
-        onOpenAiPartFinder={() => setIsPartFinderOpen(true)}
-        onOpenRoiCalculator={() => setIsRoiCalcOpen(true)}
-        onOpenToolboxRestock={() => setIsRestockOpen(true)}
-        onOpenCart={() => setIsCartOpen(true)}
-        cartCount={totalCartCount}
-        cartTotal={cartTotal}
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-      />
+      {/* Signature Blinkit Sticky Topbar & Category Menu with Bokeh Background */}
+      <div className="sticky top-0 z-40 w-full shadow-xs">
+        <Navbar
+          jobSite={jobSite}
+          customerProfile={customerProfile}
+          onOpenLocationModal={() => setIsJobsiteModalOpen(true)}
+          onOpenProfileModal={() => setIsProfileModalOpen(true)}
+          onOpenAiPartFinder={() => setIsPartFinderOpen(true)}
+          onOpenRoiCalculator={() => setIsRoiCalcOpen(true)}
+          onOpenToolboxRestock={() => setIsRestockOpen(true)}
+          onOpenCart={() => setIsCartOpen(true)}
+          cartCount={totalCartCount}
+          cartTotal={cartTotal}
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+        />
 
-      {/* Blinkit Category Chips Carousel */}
-      <CategoryChips
-        selectedCategory={selectedCategory}
-        onSelectCategory={(cat) => {
-          setSelectedCategory(cat);
-          setSearchQuery('');
-        }}
-        onOpenRestock={() => setIsRestockOpen(true)}
-        onOpenAiScanner={() => setIsPartFinderOpen(true)}
-        isGstFilterActive={isGstFilterActive}
-        onToggleGstFilter={() => setIsGstFilterActive(!isGstFilterActive)}
-      />
+        {/* Blinkit Category Chips Carousel */}
+        <CategoryChips
+          selectedCategory={selectedCategory}
+          onSelectCategory={handleSelectCategory}
+          onOpenRestock={() => setIsRestockOpen(true)}
+          onOpenAiScanner={() => setIsPartFinderOpen(true)}
+          isGstFilterActive={isGstFilterActive}
+          onToggleGstFilter={() => setIsGstFilterActive(!isGstFilterActive)}
+        />
+      </div>
 
       {/* Main Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-5 space-y-4 sm:space-y-6 pb-32 sm:pb-28 md:pb-20">
@@ -595,7 +657,7 @@ export default function App() {
           <BlinkitBanner
             onOpenAiScanner={() => setIsPartFinderOpen(true)}
             onOpenRoiCalc={() => setIsRoiCalcOpen(true)}
-            onSelectCategory={setSelectedCategory}
+            onSelectCategory={handleSelectCategory}
             onOpenProfileModal={() => setIsProfileModalOpen(true)}
             deliveryEtaMins={liveEta.etaMins}
           />
@@ -606,7 +668,7 @@ export default function App() {
           <OrderAgainSection
             customerProfile={customerProfile}
             products={products}
-            onSelectCategory={setSelectedCategory}
+            onSelectCategory={handleSelectCategory}
             onOpenRestock={() => setIsRestockOpen(true)}
             onOpenDetail={setSelectedProductDetail}
           />
@@ -617,45 +679,68 @@ export default function App() {
           /* Filtered View */
           <div className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-2xs space-y-4">
             
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
-              <div>
-                <h2 className="text-base sm:text-lg font-black text-slate-900 flex items-center gap-2">
-                  <span>
-                    {selectedCategory !== 'all' ? `${selectedCategory.toUpperCase()} ESSENTIALS` : (isGstFilterActive ? 'GST VERIFIED SELLERS (18% ITC ELIGIBLE)' : 'Search Results')}
-                  </span>
-                  <span className="text-xs font-medium text-slate-400 font-mono">
-                    ({filteredProducts.length} items available)
-                  </span>
-                </h2>
-                <p className="text-xs text-slate-500">
-                  All items stocked in local verified hardware partner stores ready for swift courier dispatch
-                </p>
+            <div className="space-y-3 pb-3 border-b border-slate-100">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <h2 className="text-base sm:text-lg font-black text-slate-900 flex items-center gap-2">
+                    <span>
+                      {selectedCategory !== 'all' 
+                        ? `${getMainCategoryConfig(selectedCategory).label.toUpperCase()} ESSENTIALS` 
+                        : (isGstFilterActive ? 'GST VERIFIED SELLERS (18% ITC ELIGIBLE)' : 'Search Results')}
+                    </span>
+                    <span className="text-xs font-medium text-slate-400 font-mono">
+                      ({filteredProducts.length} items available)
+                    </span>
+                  </h2>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    {selectedCategory !== 'all'
+                      ? getMainCategoryConfig(selectedCategory).description
+                      : 'All items stocked in local verified hardware partner stores ready for swift courier dispatch'}
+                  </p>
+                </div>
+
+                {/* Sizing Filters */}
+                <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs">
+                  <span className="text-slate-400 font-bold text-[11px] mr-1 hidden sm:inline">Size:</span>
+                  {[
+                    { id: 'all', label: 'All' },
+                    { id: '1/2', label: '1/2" (15mm)' },
+                    { id: '3/4', label: '3/4" (20mm)' },
+                    { id: '6mm', label: '6mm' },
+                    { id: '8mm', label: '8mm' },
+                    { id: '16A', label: '16A' }
+                  ].map(sz => (
+                    <button
+                      key={sz.id}
+                      onClick={() => setSizeFilter(sz.id)}
+                      className={`px-3 py-1 rounded-lg font-bold transition cursor-pointer ${
+                        sizeFilter === sz.id
+                          ? 'bg-emerald-700 text-white shadow-2xs'
+                          : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                      }`}
+                    >
+                      {sz.label}
+                    </button>
+                  ))}
+                </div>
               </div>
 
-              {/* Sizing Filters */}
-              <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs">
-                <span className="text-slate-400 font-bold text-[11px] mr-1 hidden sm:inline">Size:</span>
-                {[
-                  { id: 'all', label: 'All' },
-                  { id: '1/2', label: '1/2" (15mm)' },
-                  { id: '3/4', label: '3/4" (20mm)' },
-                  { id: '6mm', label: '6mm' },
-                  { id: '8mm', label: '8mm' },
-                  { id: '16A', label: '16A' }
-                ].map(sz => (
-                  <button
-                    key={sz.id}
-                    onClick={() => setSizeFilter(sz.id)}
-                    className={`px-3 py-1 rounded-lg font-bold transition cursor-pointer ${
-                      sizeFilter === sz.id
-                        ? 'bg-emerald-700 text-white shadow-2xs'
-                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                    }`}
-                  >
-                    {sz.label}
-                  </button>
-                ))}
-              </div>
+              {/* Sub-categories Selector Bar directly above category results */}
+              {selectedCategory !== 'all' && (
+                <div className="pt-2.5 border-t border-slate-100">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                      Sub-Categories in {getMainCategoryConfig(selectedCategory).label}:
+                    </span>
+                  </div>
+                  <SubCategoryBar
+                    selectedCategory={selectedCategory}
+                    selectedSubCategory={selectedSubCategory}
+                    onSelectSubCategory={setSelectedSubCategory}
+                    products={products}
+                  />
+                </div>
+              )}
             </div>
 
             {filteredProducts.length === 0 ? (
@@ -715,7 +800,82 @@ export default function App() {
               destinationCoords={jobSite.coordinates}
             />
 
-            {/* Shelf 2: Plumbing & Bath */}
+            {/* Shelf 2: Lighting & Bulbs */}
+            <ProductShelf
+              title="💡 LED Tubelights, Bulbs & Panel Lights"
+              subtitle="Philips 20W battens, Wipro 9W B22 bulbs, Havells ceiling panels & T-bulbs"
+              category="lighting"
+              products={lightingProducts}
+              cart={cart}
+              onAddToCart={handleAddToCart}
+              onUpdateCartQty={handleUpdateCartQty}
+              onOpenDetail={setSelectedProductDetail}
+              onSeeAll={handleSelectCategory}
+              deliveryEtaMins={liveEta.etaMins}
+              destinationCoords={jobSite.coordinates}
+            />
+
+            {/* Shelf 3: Ceiling & Exhaust Fans */}
+            <ProductShelf
+              title="🌀 Ceiling Fans, Regulators & Exhausts"
+              subtitle="Atomberg BLDC energy saver fans, Crompton 380 RPM, Havells exhausts & Roma regulators"
+              category="fans"
+              products={fanProducts}
+              cart={cart}
+              onAddToCart={handleAddToCart}
+              onUpdateCartQty={handleUpdateCartQty}
+              onOpenDetail={setSelectedProductDetail}
+              onSeeAll={handleSelectCategory}
+              deliveryEtaMins={liveEta.etaMins}
+              destinationCoords={jobSite.coordinates}
+            />
+
+            {/* Shelf 4: Switches, Buttons & Sockets */}
+            <ProductShelf
+              title="🔘 Modular Switches, Buttons & 16A Sockets"
+              subtitle="Anchor Roma switch buttons, 16A heavy power sockets, bell pushes & 32A DP isolators"
+              category="switches"
+              products={switchProducts}
+              cart={cart}
+              onAddToCart={handleAddToCart}
+              onUpdateCartQty={handleUpdateCartQty}
+              onOpenDetail={setSelectedProductDetail}
+              onSeeAll={handleSelectCategory}
+              deliveryEtaMins={liveEta.etaMins}
+              destinationCoords={jobSite.coordinates}
+            />
+
+            {/* Shelf 5: Bathroom Fittings */}
+            <ProductShelf
+              title="🚿 Bathroom Fittings & Jet Sprays"
+              subtitle="Brass health faucets, Hindware overhead rain showers, 2-in-1 dual valves & towel rods"
+              category="bathroom_fittings"
+              products={bathroomProducts}
+              cart={cart}
+              onAddToCart={handleAddToCart}
+              onUpdateCartQty={handleUpdateCartQty}
+              onOpenDetail={setSelectedProductDetail}
+              onSeeAll={handleSelectCategory}
+              deliveryEtaMins={liveEta.etaMins}
+              destinationCoords={jobSite.coordinates}
+            />
+
+            {/* Shelf 6: Kitchen Fittings */}
+            <ProductShelf
+              title="🚰 Kitchen Fittings, Taps & Couplings"
+              subtitle="360° flexible swivel sink taps, SS 304 waste couplings, expandable drain pipes & RO valves"
+              category="kitchen_fittings"
+              products={kitchenProducts}
+              cart={cart}
+              onAddToCart={handleAddToCart}
+              onUpdateCartQty={handleUpdateCartQty}
+              onOpenDetail={setSelectedProductDetail}
+              onSeeAll={handleSelectCategory}
+              deliveryEtaMins={liveEta.etaMins}
+              destinationCoords={jobSite.coordinates}
+            />
+
+            {/* Shelf 7: Plumbing */}
             <ProductShelf
               title="🚰 Plumbing & Sanitary Essentials"
               subtitle="Quarter-turn angle valves, Teflon tape, CPVC brass FTAs & SS braided pipes"
@@ -725,12 +885,12 @@ export default function App() {
               onAddToCart={handleAddToCart}
               onUpdateCartQty={handleUpdateCartQty}
               onOpenDetail={setSelectedProductDetail}
-              onSeeAll={setSelectedCategory}
+              onSeeAll={handleSelectCategory}
               deliveryEtaMins={liveEta.etaMins}
               destinationCoords={jobSite.coordinates}
             />
 
-            {/* Shelf 3: Electrical */}
+            {/* Shelf 8: Electrical */}
             <ProductShelf
               title="⚡ Electrical & Power Protection"
               subtitle="Havells C-Curve MCBs, Wago lever clamps, insulation tape & copper wires"
@@ -740,12 +900,12 @@ export default function App() {
               onAddToCart={handleAddToCart}
               onUpdateCartQty={handleUpdateCartQty}
               onOpenDetail={setSelectedProductDetail}
-              onSeeAll={setSelectedCategory}
+              onSeeAll={handleSelectCategory}
               deliveryEtaMins={liveEta.etaMins}
               destinationCoords={jobSite.coordinates}
             />
 
-            {/* Shelf 4: Fasteners */}
+            {/* Shelf 9: Fasteners */}
             <ProductShelf
               title="🔩 Screws, Anchors & Rawl Plugs"
               subtitle="Fischer nylon wall plugs, countersunk yellow zinc screws & concrete wedge bolts"
@@ -755,12 +915,12 @@ export default function App() {
               onAddToCart={handleAddToCart}
               onUpdateCartQty={handleUpdateCartQty}
               onOpenDetail={setSelectedProductDetail}
-              onSeeAll={setSelectedCategory}
+              onSeeAll={handleSelectCategory}
               deliveryEtaMins={liveEta.etaMins}
               destinationCoords={jobSite.coordinates}
             />
 
-            {/* Shelf 5: Adhesives & Putty */}
+            {/* Shelf 10: Adhesives & Putty */}
             <ProductShelf
               title="🧪 Adhesives, M-Seal & WD-40"
               subtitle="CPVC solvent cement, Araldite steel epoxy, silicone caulk & rust sprays"
@@ -770,12 +930,12 @@ export default function App() {
               onAddToCart={handleAddToCart}
               onUpdateCartQty={handleUpdateCartQty}
               onOpenDetail={setSelectedProductDetail}
-              onSeeAll={setSelectedCategory}
+              onSeeAll={handleSelectCategory}
               deliveryEtaMins={liveEta.etaMins}
               destinationCoords={jobSite.coordinates}
             />
 
-            {/* Shelf 6: Tools & Safety */}
+            {/* Shelf 11: Tools & Safety */}
             <ProductShelf
               title="🧰 Tools, SDS Drill Bits & Safety Gear"
               subtitle="Bosch SDS-Plus 4-cutters, pipe pliers, Olfa blades & 3M safety goggles"
@@ -785,7 +945,7 @@ export default function App() {
               onAddToCart={handleAddToCart}
               onUpdateCartQty={handleUpdateCartQty}
               onOpenDetail={setSelectedProductDetail}
-              onSeeAll={setSelectedCategory}
+              onSeeAll={handleSelectCategory}
               deliveryEtaMins={liveEta.etaMins}
               destinationCoords={jobSite.coordinates}
             />

@@ -37,7 +37,8 @@ import {
   CheckCircle2,
   Lock,
   Copy,
-  Tag
+  Tag,
+  RotateCcw
 } from 'lucide-react';
 import { CustomerProfile, CustomerGstProfile, Order, JobSiteLocation } from '../types';
 
@@ -1485,18 +1486,20 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
                 </span>
               </button>
 
-              {/* Card 2: GST Details */}
+              {/* Card 2: Reorder */}
               <button
-                onClick={() => setActiveSubView('gst_details')}
+                onClick={() => {
+                  onOpenRestock();
+                }}
                 className="bg-white hover:bg-slate-50 border border-slate-200/90 rounded-2xl p-3 sm:p-4 flex flex-col items-center justify-center text-center shadow-xs transition hover:shadow-md cursor-pointer active:scale-98"
               >
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-amber-50 text-amber-900 flex items-center justify-center mb-2 border border-amber-200/60">
-                  <Building2 className="w-5 h-5 sm:w-6 sm:h-6 stroke-[1.8] text-amber-700" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center mb-2 border border-emerald-200/60">
+                  <RotateCcw className="w-5 h-5 sm:w-6 sm:h-6 stroke-[1.8] text-emerald-700" />
                 </div>
                 <span className="text-xs sm:text-sm font-extrabold text-slate-900 leading-tight">
-                  GST Details
+                  Reorder
                 </span>
-                <span className="text-[10px] font-mono text-amber-700 font-bold mt-0.5">18% ITC</span>
+                <span className="text-[10px] font-medium text-emerald-700 mt-0.5">Past Orders</span>
               </button>
 
               {/* Card 3: Need help? */}

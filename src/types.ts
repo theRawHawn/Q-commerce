@@ -1,4 +1,20 @@
-export type TradeCategory = 'all' | 'plumbing' | 'electrical' | 'screws' | 'cutters' | 'cutting_discs' | 'carpentry' | 'fasteners' | 'tools' | 'adhesives' | 'safety';
+export type TradeCategory = 
+  | 'all' 
+  | 'lighting'
+  | 'fans'
+  | 'switches'
+  | 'bathroom_fittings'
+  | 'kitchen_fittings'
+  | 'plumbing' 
+  | 'electrical' 
+  | 'carpentry'
+  | 'screws' 
+  | 'cutting_discs' 
+  | 'cutters' 
+  | 'fasteners' 
+  | 'tools' 
+  | 'adhesives' 
+  | 'safety';
 
 export interface CustomerGstProfile {
   isB2BEnabled: boolean;

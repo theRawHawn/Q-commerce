@@ -1,12 +1,12 @@
 import React from 'react';
-import { Home, Grid, RotateCcw, User, ShoppingBag } from 'lucide-react';
+import { Home, Grid, RotateCcw, ShoppingBag } from 'lucide-react';
 import { TradeCategory } from '../types';
 
 interface MobileBottomNavProps {
   currentCategory: TradeCategory;
   onSelectCategory: (cat: TradeCategory) => void;
-  onOpenRestock: () => void;
-  onOpenProfile: () => void;
+  onOpenRestock?: () => void;
+  onOpenProfile?: () => void;
   onOpenCart: () => void;
   cartCount: number;
 }
@@ -15,7 +15,6 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
   currentCategory,
   onSelectCategory,
   onOpenRestock,
-  onOpenProfile,
   onOpenCart,
   cartCount
 }) => {
@@ -26,7 +25,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
         {/* Home */}
         <button
           onClick={() => onSelectCategory('all')}
-          className={`flex flex-col items-center gap-0.5 px-2 py-1 text-center cursor-pointer transition ${
+          className={`flex flex-col items-center gap-0.5 px-3 py-1 text-center cursor-pointer transition ${
             currentCategory === 'all' ? 'text-emerald-700 font-extrabold' : 'text-slate-500 hover:text-slate-900 font-medium'
           }`}
         >
@@ -37,7 +36,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
         {/* Categories */}
         <button
           onClick={() => onSelectCategory('plumbing')}
-          className={`flex flex-col items-center gap-0.5 px-2 py-1 text-center cursor-pointer transition ${
+          className={`flex flex-col items-center gap-0.5 px-3 py-1 text-center cursor-pointer transition ${
             currentCategory !== 'all' ? 'text-emerald-700 font-extrabold' : 'text-slate-500 hover:text-slate-900 font-medium'
           }`}
         >
@@ -45,28 +44,19 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
           <span className="text-[10px]">Categories</span>
         </button>
 
-        {/* Reorder / Fast Restock */}
+        {/* Reorder */}
         <button
           onClick={onOpenRestock}
-          className="flex flex-col items-center gap-0.5 px-2 py-1 text-center text-slate-500 hover:text-slate-900 font-medium cursor-pointer transition"
+          className="flex flex-col items-center gap-0.5 px-3 py-1 text-center text-slate-500 hover:text-slate-900 font-medium cursor-pointer transition"
         >
           <RotateCcw className="w-5 h-5" />
           <span className="text-[10px]">Reorder</span>
         </button>
 
-        {/* Account / Profile */}
-        <button
-          onClick={onOpenProfile}
-          className="flex flex-col items-center gap-0.5 px-2 py-1 text-center text-slate-500 hover:text-slate-900 font-medium cursor-pointer transition"
-        >
-          <User className="w-5 h-5" />
-          <span className="text-[10px]">Profile</span>
-        </button>
-
         {/* Cart */}
         <button
           onClick={onOpenCart}
-          className="relative flex flex-col items-center gap-0.5 px-2 py-1 text-center text-emerald-700 hover:text-emerald-800 font-black cursor-pointer transition"
+          className="relative flex flex-col items-center gap-0.5 px-3 py-1 text-center text-emerald-700 hover:text-emerald-800 font-black cursor-pointer transition"
         >
           <div className="relative">
             <ShoppingBag className="w-5 h-5" />

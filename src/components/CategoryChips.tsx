@@ -1,95 +1,19 @@
 import React from 'react';
 import { 
-  Droplet, 
-  Zap, 
-  Anchor, 
-  Wrench, 
-  TestTube, 
-  ShieldCheck, 
   RotateCcw, 
-  Layers,
-  Sparkles,
-  Grid,
-  Disc,
-  Scissors,
-  Hammer,
-  DoorOpen,
   X
 } from 'lucide-react';
+import { MAIN_CATEGORIES } from '../data/categories';
 import { TradeCategory } from '../types';
 
 interface CategoryChipsProps {
   selectedCategory: TradeCategory;
   onSelectCategory: (category: TradeCategory) => void;
   onOpenRestock: () => void;
-  onOpenAiScanner: () => void;
+  onOpenAiScanner?: () => void;
   isGstFilterActive?: boolean;
   onToggleGstFilter?: () => void;
 }
-
-export interface CategoryItem {
-  id: TradeCategory;
-  label: string;
-  icon: any;
-}
-
-export const CATEGORIES_DATA: CategoryItem[] = [
-  {
-    id: 'all',
-    label: 'All',
-    icon: Grid,
-  },
-  {
-    id: 'plumbing',
-    label: 'Plumbing',
-    icon: Droplet,
-  },
-  {
-    id: 'electrical',
-    label: 'Electrical',
-    icon: Zap,
-  },
-  {
-    id: 'carpentry',
-    label: 'Carpentry',
-    icon: DoorOpen,
-  },
-  {
-    id: 'screws',
-    label: 'Screws & Anchors',
-    icon: Hammer,
-  },
-  {
-    id: 'cutters',
-    label: 'Tile & Iron Cutters',
-    icon: Scissors,
-  },
-  {
-    id: 'cutting_discs',
-    label: 'Cutting Discs & Blades',
-    icon: Disc,
-  },
-  {
-    id: 'fasteners',
-    label: 'Fasteners',
-    icon: Anchor,
-  },
-  {
-    id: 'adhesives',
-    label: 'Adhesives',
-    icon: TestTube,
-  },
-  {
-    id: 'tools',
-    label: 'Tools & Bits',
-    icon: Wrench,
-  },
-  {
-    id: 'safety',
-    label: 'Safety Gear',
-    icon: ShieldCheck,
-  }
-];
 
 export const CategoryChips: React.FC<CategoryChipsProps> = ({
   selectedCategory,
@@ -97,12 +21,29 @@ export const CategoryChips: React.FC<CategoryChipsProps> = ({
   onOpenRestock,
 }) => {
   return (
-    <div className="bg-white border-b border-slate-200/70 py-3 shadow-2xs">
-      <div className="max-w-7xl mx-auto px-3 sm:px-6">
-        
-        {/* Un-congested Horizontal Category Icons Bar */}
-        <div className="flex items-center gap-6 sm:gap-8 overflow-x-auto px-1 py-1 scrollbar-none">
-          {CATEGORIES_DATA.map((cat) => {
+    <div 
+      className="relative w-full border-b border-amber-300/60 pb-1.5 pt-0.5 shadow-xs overflow-hidden select-none"
+      style={{
+        background: 'linear-gradient(180deg, #FBD050 0%, #FDE074 45%, #FEF1A9 80%, #FFF9D6 100%)',
+      }}
+    >
+      {/* Soft Bokeh / Ambient Light Glow Highlights */}
+      <div 
+        className="pointer-events-none absolute inset-0 opacity-70"
+        style={{
+          backgroundImage: `
+            radial-gradient(circle at 12% 20%, rgba(255, 255, 255, 0.55) 0%, transparent 35%),
+            radial-gradient(circle at 55% 85%, rgba(255, 255, 255, 0.4) 0%, transparent 40%),
+            radial-gradient(circle at 88% 30%, rgba(255, 255, 255, 0.5) 0%, transparent 35%),
+            radial-gradient(circle at 70% 10%, rgba(245, 158, 11, 0.2) 0%, transparent 45%)
+          `
+        }}
+      />
+
+      <div className="relative max-w-7xl mx-auto px-2 sm:px-4 md:px-6">
+        {/* Compact Blinkit Horizontal Category Carousel with reduced gaps & graphics-only */}
+        <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3 overflow-x-auto py-1 scrollbar-none">
+          {MAIN_CATEGORIES.map((cat) => {
             const isSelected = selectedCategory === cat.id;
             const Icon = cat.icon;
 
@@ -116,72 +57,72 @@ export const CategoryChips: React.FC<CategoryChipsProps> = ({
                     onSelectCategory(cat.id);
                   }
                 }}
-                className="flex-shrink-0 flex flex-col items-center gap-1.5 cursor-pointer group focus:outline-none transition select-none relative"
+                className="flex-shrink-0 flex flex-col items-center justify-between min-w-[56px] sm:min-w-[66px] px-1.5 py-0.5 cursor-pointer group focus:outline-none transition-transform active:scale-95 relative"
               >
-                {/* Category Icon Pill */}
-                <div 
-                  className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center transition-all duration-200 relative ${
-                    isSelected
-                      ? 'bg-slate-950 text-amber-300 shadow-md scale-105 border border-amber-400/30'
-                      : 'bg-slate-100/90 text-slate-800 hover:bg-slate-200/80 border border-slate-200/60'
-                  }`}
-                >
-                  <Icon className={`w-5 h-5 sm:w-6 sm:h-6 ${isSelected ? 'text-amber-300' : 'text-slate-800'}`} />
+                {/* Pure Graphic / Icon (No Background Box!) */}
+                <div className="relative flex items-center justify-center h-8 sm:h-9 w-8 sm:w-9 mb-1">
+                  <Icon 
+                    className={`transition-all duration-150 ${
+                      isSelected 
+                        ? 'w-6 h-6 sm:w-7 sm:h-7 text-slate-950 stroke-[2.4] drop-shadow-xs' 
+                        : 'w-5 h-5 sm:w-6 sm:h-6 text-slate-800/90 group-hover:text-slate-950 stroke-[1.9] group-hover:scale-105'
+                    }`} 
+                  />
 
-                  {/* ✕ Cancel Badge on top right of selected category icon */}
+                  {/* ✕ Clear Filter Badge on active item if specific category is filtered */}
                   {isSelected && cat.id !== 'all' && (
                     <div
                       onClick={(e) => {
                         e.stopPropagation();
                         onSelectCategory('all');
                       }}
-                      className="absolute -top-1 -right-1 w-5 h-5 bg-rose-600 hover:bg-rose-700 text-white rounded-full flex items-center justify-center shadow-md border-2 border-white transition cursor-pointer"
-                      title="Cancel filter & return to main page"
+                      className="absolute -top-1 -right-1.5 w-4 h-4 bg-slate-950 text-white hover:bg-rose-600 rounded-full flex items-center justify-center shadow-xs border border-white transition cursor-pointer"
+                      title="Clear category filter"
                     >
-                      <X className="w-3 h-3 stroke-[3]" />
+                      <X className="w-2.5 h-2.5 stroke-[3]" />
                     </div>
                   )}
                 </div>
 
-                {/* Category Label */}
-                <div className="flex items-center gap-1">
-                  <span 
-                    className={`text-xs font-bold tracking-tight text-center whitespace-nowrap transition ${
-                      isSelected ? 'text-slate-950 font-black' : 'text-slate-600 group-hover:text-slate-900'
-                    }`}
-                  >
-                    {cat.label}
-                  </span>
-                </div>
+                {/* Main Category Label */}
+                <span 
+                  className={`text-[11px] sm:text-[12px] leading-tight tracking-tight text-center whitespace-nowrap transition-colors ${
+                    isSelected 
+                      ? 'text-slate-950 font-black' 
+                      : 'text-slate-800 font-semibold group-hover:text-slate-950'
+                  }`}
+                >
+                  {cat.label}
+                </span>
 
-                {/* Active Underline Indicator */}
+                {/* Blinkit Bottom Indicator Bar under selected item */}
                 <div 
-                  className={`h-1 rounded-full transition-all duration-200 ${
-                    isSelected ? 'w-6 bg-slate-950' : 'w-0 bg-transparent'
+                  className={`h-[3px] rounded-full transition-all duration-200 mt-1 ${
+                    isSelected 
+                      ? 'w-7 sm:w-9 bg-slate-950 shadow-xs' 
+                      : 'w-0 bg-transparent'
                   }`}
                 />
               </button>
             );
           })}
 
-          {/* Reorder / History Tab */}
+          {/* Reorder / Fast Repeat Order Graphic Button */}
           <button
             onClick={onOpenRestock}
-            className="flex-shrink-0 flex flex-col items-center gap-1.5 cursor-pointer group focus:outline-none transition select-none"
+            className="flex-shrink-0 flex flex-col items-center justify-between min-w-[56px] sm:min-w-[66px] px-1.5 py-0.5 cursor-pointer group focus:outline-none transition-transform active:scale-95"
+            title="Reorder frequent items"
           >
-            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-emerald-50 text-emerald-800 border border-emerald-200/80 flex items-center justify-center hover:bg-emerald-100 transition shadow-2xs">
-              <RotateCcw className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-800" />
+            <div className="relative flex items-center justify-center h-8 sm:h-9 w-8 sm:w-9 mb-1">
+              <RotateCcw className="w-5 h-5 sm:w-6 sm:h-6 text-slate-800 group-hover:text-emerald-950 stroke-[1.9] group-hover:scale-105 transition" />
             </div>
-            <span className="text-xs font-bold text-slate-600 group-hover:text-slate-900 tracking-tight whitespace-nowrap">
+            <span className="text-[11px] sm:text-[12px] font-semibold text-slate-800 group-hover:text-slate-950 tracking-tight whitespace-nowrap leading-tight">
               Reorder
             </span>
-            <div className="h-1 w-0 bg-transparent rounded-full" />
+            <div className="h-[3px] w-0 bg-transparent rounded-full mt-1" />
           </button>
-
         </div>
-
       </div>
     </div>
   );
 };
-
