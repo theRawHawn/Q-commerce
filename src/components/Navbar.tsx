@@ -6,9 +6,7 @@ import {
   Mic,
   Zap,
   User,
-  Sparkles,
-  RotateCcw,
-  ShoppingBag
+  Sparkles
 } from 'lucide-react';
 import { JobSiteLocation, CustomerProfile } from '../types';
 import { calculateDynamicDeliveryEta } from '../utils/deliveryEta';
@@ -34,10 +32,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenLocationModal,
   onOpenProfileModal,
   onOpenAiPartFinder,
-  onOpenToolboxRestock,
-  onOpenCart,
-  cartCount,
-  cartTotal,
   searchQuery,
   onSearchChange,
 }) => {
@@ -66,31 +60,33 @@ export const Navbar: React.FC<NavbarProps> = ({
   const userInitial = customerProfile.name ? customerProfile.name.charAt(0).toUpperCase() : 'R';
 
   return (
-    <header 
-      className="w-full rounded-none text-slate-950 transition-all relative overflow-hidden"
-      style={{
-        background: 'linear-gradient(180deg, #F8C336 0%, #FBD050 100%)',
-      }}
-    >
-      {/* Subtle Ambient Bokeh Glow */}
-      <div 
-        className="pointer-events-none absolute inset-0 opacity-60"
-        style={{
-          backgroundImage: `
-            radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 0.45) 0%, transparent 40%),
-            radial-gradient(circle at 90% 20%, rgba(255, 255, 255, 0.4) 0%, transparent 45%),
-            radial-gradient(circle at 50% 100%, rgba(255, 255, 255, 0.3) 0%, transparent 40%)
-          `
-        }}
-      />
-      <div className="relative max-w-7xl mx-auto px-3 sm:px-6 pt-3 pb-2.5 space-y-2.5 sm:space-y-3">
+    <header className="sticky top-0 z-40 w-full rounded-none bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 border-b border-amber-400/80 shadow-xs text-slate-950 transition-all">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 pt-3 pb-3 sm:pb-3.5 space-y-2.5 sm:space-y-3">
         
-        {/* Top Row: Delivery ETA, Address & Profile */}
+        {/* Top Row: Logo, Delivery ETA, Address & Profile */}
         <div className="flex items-center justify-between gap-3">
           
-          {/* Left Block: ETA + Location */}
+          {/* Left Block: Logo + ETA + Location */}
           <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
             
+            {/* Blinkit Logo */}
+            <div 
+              onClick={() => onSearchChange('')}
+              className="flex items-center gap-1 cursor-pointer select-none shrink-0"
+              title="Home / Reset Search"
+            >
+              <div className="flex items-baseline font-black text-xl sm:text-2xl tracking-tighter text-slate-950">
+                <span>blink</span>
+                <span className="text-slate-950">it</span>
+              </div>
+              <span className="bg-slate-950 text-amber-300 text-[8px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded-sm tracking-wider shadow-2xs ml-0.5 hidden min-[380px]:inline-block">
+                HARDWARE
+              </span>
+            </div>
+
+            {/* Separator Line */}
+            <div className="h-8 w-px bg-slate-950/20 shrink-0 hidden min-[480px]:block" />
+
             {/* Delivery Info Block */}
             <div className="min-w-0 flex-1">
               {/* Big ETA Text with Lightning bolt */}
@@ -116,34 +112,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <ChevronDown className="w-3 h-3 text-slate-950 group-hover:translate-y-0.5 transition shrink-0 ml-0.5" />
               </button>
             </div>
-
           </div>
 
-          {/* Right Block: Cart & Account Profile Buttons */}
-          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-            
-            {/* Header Cart Button (Desktop/Tablet Only) */}
-            {onOpenCart && (
-              <button
-                onClick={onOpenCart}
-                className="hidden md:flex relative items-center justify-center bg-slate-950 text-white hover:bg-slate-900 border border-amber-300/80 p-2 sm:p-2.5 rounded-xl shadow-md transition cursor-pointer hover:scale-105 active:scale-95 shrink-0"
-                title="Open Shopping Cart"
-              >
-                <div className="relative flex items-center justify-center">
-                  <ShoppingBag className="w-4 h-4 text-amber-300" />
-                  {cartCount !== undefined && cartCount > 0 && (
-                    <span className="absolute -top-2 -right-2.5 bg-emerald-500 text-slate-950 text-[9px] font-black w-4.5 h-4.5 rounded-full flex items-center justify-center border-2 border-slate-950">
-                      {cartCount}
-                    </span>
-                  )}
-                </div>
-              </button>
-            )}
-
-            {/* Account Profile Button */}
+          {/* Right Block: Account Profile Button (No Wallet) */}
+          <div className="flex items-center shrink-0">
             <button
               onClick={onOpenProfileModal}
-              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-950 text-white border border-amber-300 shadow-md flex items-center justify-center font-black text-sm hover:scale-105 active:scale-95 transition cursor-pointer shrink-0"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-950 text-white border border-amber-300 shadow-md flex items-center justify-center font-black text-sm hover:scale-105 active:scale-95 transition cursor-pointer"
               title="Account & Trade Profile"
             >
               {userInitial ? (
@@ -153,7 +128,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}
             </button>
           </div>
-
         </div>
 
         {/* Search Bar Row: Spacious, Clean Floating Card */}
@@ -205,7 +179,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <Mic className="w-4 h-4" />
               </button>
             </div>
-
           </div>
         </div>
 
