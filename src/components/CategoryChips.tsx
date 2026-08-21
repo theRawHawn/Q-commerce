@@ -1,6 +1,5 @@
 import React from 'react';
 import { 
-  RotateCcw, 
   X
 } from 'lucide-react';
 import { MAIN_CATEGORIES } from '../data/categories';
@@ -9,7 +8,7 @@ import { TradeCategory } from '../types';
 interface CategoryChipsProps {
   selectedCategory: TradeCategory;
   onSelectCategory: (category: TradeCategory) => void;
-  onOpenRestock: () => void;
+  onOpenRestock?: () => void;
   onOpenAiScanner?: () => void;
   isGstFilterActive?: boolean;
   onToggleGstFilter?: () => void;
@@ -18,7 +17,6 @@ interface CategoryChipsProps {
 export const CategoryChips: React.FC<CategoryChipsProps> = ({
   selectedCategory,
   onSelectCategory,
-  onOpenRestock,
 }) => {
   return (
     <div 
@@ -106,21 +104,6 @@ export const CategoryChips: React.FC<CategoryChipsProps> = ({
               </button>
             );
           })}
-
-          {/* Reorder / Fast Repeat Order Graphic Button */}
-          <button
-            onClick={onOpenRestock}
-            className="flex-shrink-0 flex flex-col items-center justify-between min-w-[56px] sm:min-w-[66px] px-1.5 py-0.5 cursor-pointer group focus:outline-none transition-transform active:scale-95"
-            title="Reorder frequent items"
-          >
-            <div className="relative flex items-center justify-center h-8 sm:h-9 w-8 sm:w-9 mb-1">
-              <RotateCcw className="w-5 h-5 sm:w-6 sm:h-6 text-slate-800 group-hover:text-emerald-950 stroke-[1.9] group-hover:scale-105 transition" />
-            </div>
-            <span className="text-[11px] sm:text-[12px] font-semibold text-slate-800 group-hover:text-slate-950 tracking-tight whitespace-nowrap leading-tight">
-              Reorder
-            </span>
-            <div className="h-[3px] w-0 bg-transparent rounded-full mt-1" />
-          </button>
         </div>
       </div>
     </div>
