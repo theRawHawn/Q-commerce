@@ -975,29 +975,35 @@ export default function App() {
         )}
 
         {/* Blinkit & Instamart Signature End-of-Feed Watermark Footer */}
-        <div className="pt-12 pb-20 sm:pt-16 sm:pb-24 flex flex-col items-center justify-center text-center select-none space-y-2 px-3">
+        <div id="footer-watermark" className="pt-12 pb-20 sm:pt-16 sm:pb-24 w-full flex flex-col items-center justify-center text-center select-none space-y-2 px-3 mx-auto">
           {/* Lightning Bolt Icon above text with 25% increased size */}
           <span className="text-amber-500 inline-block text-3xl sm:text-5xl md:text-6xl leading-none animate-pulse">⚡</span>
 
-          {/* Subtle Watermark Headline (Scrolling Single-Word Categories in Minutes) */}
-          <h2 className="text-[22px] min-[360px]:text-2xl sm:text-5xl md:text-6xl font-black tracking-tight text-slate-300/80 leading-normal sm:leading-none inline-flex items-center justify-center gap-1.5 sm:gap-2.5 flex-nowrap">
-            {/* Fixed-width animated vertical roller so following text never shifts */}
-            <span className="relative inline-flex items-center justify-end overflow-hidden h-[1.3em] w-[5.2em] text-right shrink-0">
-              <AnimatePresence mode="popLayout" initial={false}>
+          {/* Subtle Watermark Headline (Centered Scrolling Single-Word Categories in Minutes) */}
+          <motion.h2 
+            layout
+            transition={{ layout: { duration: 0.25, ease: "easeOut" } }}
+            className="text-2xl min-[380px]:text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-slate-300/80 leading-normal sm:leading-none inline-flex items-center justify-center gap-1.5 sm:gap-2.5 flex-nowrap text-center"
+          >
+            {/* Animated vertical roller centered naturally without artificial empty padding */}
+            <span className="relative inline-flex items-center justify-center overflow-hidden h-[1.3em]">
+              <AnimatePresence mode="wait" initial={false}>
                 <motion.span
                   key={WATERMARK_CATEGORIES[activeCategoryIndex]}
                   initial={{ y: '100%', opacity: 0 }}
                   animate={{ y: '0%', opacity: 1 }}
                   exit={{ y: '-100%', opacity: 0 }}
-                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                  className="whitespace-nowrap font-black text-slate-300/80 text-right"
+                  transition={{ duration: 0.25, ease: 'easeOut' }}
+                  className="whitespace-nowrap font-black text-slate-300/80 text-center"
                 >
                   {WATERMARK_CATEGORIES[activeCategoryIndex]}
                 </motion.span>
               </AnimatePresence>
             </span>
-            <span className="whitespace-nowrap text-slate-300/80 shrink-0">in Minutes.</span>
-          </h2>
+            <motion.span layout transition={{ layout: { duration: 0.25, ease: "easeOut" } }} className="whitespace-nowrap text-slate-300/80">
+              in Minutes.
+            </motion.span>
+          </motion.h2>
           <p className="text-xs sm:text-sm text-slate-400 font-medium tracking-wide">
             Crafted with <span className="text-blue-500 font-bold">💙</span> in Bengaluru, India
           </p>
