@@ -59,7 +59,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   if (!isOpen) return null;
 
   const subtotal = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
-  const isFreeDelivery = subtotal >= 199;
+  const isFreeDelivery = subtotal >= 499;
   const deliveryFee = subtotal === 0 ? 0 : (isFreeDelivery ? 0 : 25);
   const handlingCharge = subtotal > 0 ? 5 : 0;
   const tax = Math.round(subtotal * 0.18); // 18% GST in India
@@ -342,6 +342,28 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   </div>
                 </div>
 
+                {/* Free Delivery Target Banner (₹499 Standard) */}
+                <div className={`p-3 rounded-2xl border text-xs font-semibold ${
+                  isFreeDelivery 
+                    ? 'bg-emerald-50 border-emerald-200 text-emerald-900'
+                    : 'bg-amber-50/80 border-amber-200 text-amber-900'
+                }`}>
+                  <div className="flex items-center justify-between mb-1.5 font-bold">
+                    <span>
+                      {isFreeDelivery ? '🎉 FREE Delivery Unlocked!' : `Add ₹${499 - subtotal} more for FREE Delivery`}
+                    </span>
+                    <span className="text-[11px] font-mono">
+                      {isFreeDelivery ? 'Saved ₹25' : `₹${subtotal}/₹499`}
+                    </span>
+                  </div>
+                  <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                    <div 
+                      className={`h-full transition-all duration-300 ${isFreeDelivery ? 'bg-emerald-600' : 'bg-amber-500'}`}
+                      style={{ width: `${Math.min(100, (subtotal / 499) * 100)}%` }}
+                    />
+                  </div>
+                </div>
+
                 {/* Bill Details */}
                 <div className="bg-white rounded-2xl border border-slate-200 p-3.5 shadow-2xs space-y-2 text-xs">
                   <div className="text-[10px] uppercase font-black tracking-wider text-slate-400">
@@ -355,7 +377,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     <div className="flex justify-between items-center">
                       <span>12-Min Dedicated Courier:</span>
                       <span className="font-mono font-bold text-emerald-700">
-                        {isFreeDelivery ? 'FREE (Orders above ₹199)' : `₹${deliveryFee}`}
+                        {isFreeDelivery ? 'FREE (Orders above ₹499)' : `₹${deliveryFee}`}
                       </span>
                     </div>
                     <div className="flex justify-between">

@@ -290,7 +290,7 @@ export default function App() {
     businessName?: string;
   }) => {
     const subtotal = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
-    const isFree = subtotal >= 199;
+    const isFree = subtotal >= 499;
     const deliveryFee = isFree ? 0 : 25;
     const handlingCharge = 5;
     const isB2B = config.isGstEnabled !== undefined 
@@ -953,13 +953,35 @@ export default function App() {
           </div>
         )}
 
-        {/* Free Delivery Promo Bar (matching reference screenshots) */}
+        {/* Free Delivery Promo Bar (Standard ₹499 threshold) */}
         <div className="w-full my-4">
           <div className="bg-emerald-50/90 border border-emerald-200 rounded-2xl py-3 px-4 text-center flex items-center justify-center gap-2 text-emerald-950 font-black text-xs shadow-2xs">
             <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
-            <span>⚡ FREE {liveEta.formattedEta.toUpperCase()} DELIVERY ON ALL ORDERS ABOVE ₹199</span>
+            <span>⚡ FREE {liveEta.formattedEta.toUpperCase()} DELIVERY ON ALL ORDERS ABOVE ₹499</span>
             <span className="text-emerald-700/60 hidden sm:inline">•</span>
             <span className="text-emerald-800 text-[11px] font-semibold hidden sm:inline">Dispatched from nearest local hardware partner ({liveEta.formattedDist})</span>
+          </div>
+        </div>
+
+        {/* Blinkit & Instamart Signature End-of-Feed Watermark Footer */}
+        <div className="pt-12 pb-20 sm:pt-16 sm:pb-24 flex flex-col items-center justify-center text-center select-none space-y-3.5 px-4">
+          {/* Subtle Watermark Headline (Direct match to Blinkit Reference) */}
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-slate-300/80 leading-none">
+            India's last minute app <span className="text-red-500 inline-block align-middle text-2.5xl sm:text-4.5xl animate-pulse">❤️</span>
+          </h2>
+
+          {/* Subtitle / Brand attribution & Location Note (Direct match to Instamart & Blinkit References) */}
+          <div className="flex flex-col items-center gap-1 pt-1">
+            <div className="flex items-baseline gap-1 text-xl sm:text-2xl font-black tracking-tighter text-slate-400">
+              <span>blink</span>
+              <span className="text-emerald-600 font-black">it</span>
+              <span className="text-slate-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider ml-1 px-1.5 py-0.5 rounded bg-slate-100/90 border border-slate-200/60">
+                Hardware
+              </span>
+            </div>
+            <p className="text-xs sm:text-sm text-slate-400 font-medium tracking-wide">
+              Crafted with <span className="text-blue-500 font-bold">💙</span> in Bengaluru, India
+            </p>
           </div>
         </div>
 
@@ -994,29 +1016,6 @@ export default function App() {
           </div>
         </div>
       )}
-
-      {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 text-slate-500 text-xs py-8 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <div className="flex items-baseline font-black text-base tracking-tight text-slate-900">
-              <span>blink</span>
-              <span className="text-emerald-600">it</span>
-            </div>
-            <span className="bg-amber-400 text-zinc-950 text-[9px] font-black uppercase px-1.5 py-0.5 rounded">
-              HARDWARE
-            </span>
-            <span className="text-slate-300">•</span>
-            <span>Hyper-local Real-Time Hardware Delivery for Everyone</span>
-          </div>
-
-          <div className="flex items-center gap-4 text-[11px] text-slate-400">
-            <span>100% Genuine Fittings</span>
-            <span>•</span>
-            <span>GSTR-3B Input Tax Credit (ITC)</span>
-          </div>
-        </div>
-      </footer>
 
       {/* Mobile Bottom Tab Navigation (matching Reference Screenshots) */}
       <MobileBottomNav
