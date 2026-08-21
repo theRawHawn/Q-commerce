@@ -21,10 +21,11 @@ import {
 } from 'lucide-react';
 import { JobSiteLocation } from '../types';
 import { OpenStreetMap } from './OpenStreetMap';
+import { reverseGeocodeCoordinates } from '../utils/geolocation';
 
 export interface SavedAddress {
   id: string;
-  tag: 'Job Site' | 'Home' | 'Work' | 'Warehouse' | 'Other';
+  tag: 'Job Site' | 'Home' | 'Work' | 'Warehouse' | 'Other' | 'Current Location';
   address: string;
   floorUnit: string;
   landmark: string;
@@ -262,55 +263,88 @@ export const LocationPage: React.FC<LocationPageProps> = ({
 
     setIsLocating(true);
     setLocationError(null);
-    setLocationStatus('Acquiring real-time GPS position...');
+    setLocationStatus('Acquiring real-time GPS position from device...');
 
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
         const lat = pos.coords.latitude;
         const lng = pos.coords.longitude;
 
-        setFormData((prev) => ({ ...prev, coordinates: { lat, lng } }));
-
         try {
-          const res = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&addressdetails=1`
-          );
-          if (res.ok) {
-            const data = await res.json();
-            const road = data.address?.road || data.address?.suburb || data.address?.neighbourhood || '';
-            const city = data.address?.city || data.address?.state_district || data.address?.town || 'Bengaluru';
-            const postcode = data.address?.postcode ? ` - ${data.address.postcode}` : '';
-            const landmark = data.address?.building || data.address?.amenity || 'Near GPS Pin';
-
-            const resolvedAddress = road
-              ? `${road}, ${city}${postcode}`
-              : `${data.display_name.split(',').slice(0, 3).join(',')}, ${city}`;
-
-            setFormData((prev) => ({
-              ...prev,
-              address: resolvedAddress,
-              landmark: landmark,
-              coordinates: { lat, lng },
-            }));
-            setLocationStatus('Current location auto-detected!');
-          }
-        } catch {
-          setFormData((prev) => ({
-            ...prev,
-            address: `Current Location (${lat.toFixed(4)}, ${lng.toFixed(4)})`,
+          // Robust multi-tier reverse geocoding
+          const geoResult = await reverseGeocodeCoordinates(lat, lng);
+          
+          const updatedLocation: JobSiteLocation = {
+            address: geoResult.formattedAddress,
+            landmark: geoResult.landmark || 'Near GPS Pin',
+            floorUnit: formData.floorUnit || 'Doorstep Delivery',
+            siteContactName: formData.siteContactName || 'Rahul Sharma',
+            sitePhone: formData.sitePhone || '+91 98450 12891',
+            jobTag: 'Current Location',
             coordinates: { lat, lng },
-          }));
-          setLocationStatus('GPS position updated!');
+          };
+
+          // 1. Update form data
+          setFormData(updatedLocation);
+
+          // 2. Create / update SavedAddress for Current GPS Location
+          const currentGpsAddr: SavedAddress = {
+            id: 'addr_current_gps',
+            tag: 'Current Location',
+            address: geoResult.formattedAddress,
+            floorUnit: updatedLocation.floorUnit || 'Doorstep Delivery',
+            landmark: geoResult.landmark,
+            siteContactName: updatedLocation.siteContactName,
+            sitePhone: updatedLocation.sitePhone,
+            isDefault: true,
+            coordinates: { lat, lng },
+            distanceSla: 'Hyperlocal • 10-12 Min SLA',
+          };
+
+          // Remove any previous current GPS address and prepend fresh one
+          const updatedAddressesList = [
+            currentGpsAddr,
+            ...savedAddresses.filter((a) => a.id !== 'addr_current_gps').map((a) => ({ ...a, isDefault: false })),
+          ];
+
+          saveAddressesToStorage(updatedAddressesList);
+          setSelectedAddressId('addr_current_gps');
+
+          // 3. Immediately persist & apply location to app state
+          onSaveLocation(updatedLocation);
+          try {
+            localStorage.setItem('quickhardware_jobsite', JSON.stringify(updatedLocation));
+          } catch {
+            // ignore
+          }
+
+          setLocationStatus(`✓ Actual GPS Location Saved: ${geoResult.formattedAddress.split(',')[0]} (${geoResult.city})`);
+        } catch (err) {
+          console.error('Error resolving GPS location:', err);
+          const fallbackLoc: JobSiteLocation = {
+            ...formData,
+            address: `GPS Pin Location (${lat.toFixed(4)}, ${lng.toFixed(4)})`,
+            coordinates: { lat, lng },
+            jobTag: 'Current Location',
+          };
+          setFormData(fallbackLoc);
+          onSaveLocation(fallbackLoc);
+          setLocationStatus('GPS position updated & saved.');
         } finally {
           setIsLocating(false);
-          setTimeout(() => setLocationStatus(null), 3000);
+          setTimeout(() => setLocationStatus(null), 4500);
         }
       },
       (err) => {
         setIsLocating(false);
-        setLocationError('Unable to fetch GPS position. Please pick on map.');
+        console.warn('Geolocation error:', err);
+        setLocationError(
+          err.code === 1
+            ? 'Location permission denied. Please allow location access in your browser or pick a location on the map.'
+            : 'Unable to acquire accurate GPS position. Please select a pin on the map.'
+        );
       },
-      { enableHighAccuracy: true, timeout: 8000 }
+      { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
     );
   };
 
@@ -318,21 +352,13 @@ export const LocationPage: React.FC<LocationPageProps> = ({
     setFormData((prev) => ({ ...prev, coordinates: { lat, lng } }));
 
     try {
-      const res = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&addressdetails=1`
-      );
-      if (res.ok) {
-        const data = await res.json();
-        const road = data.address?.road || data.address?.suburb || '';
-        const city = data.address?.city || 'Bengaluru';
-        if (road) {
-          setFormData((prev) => ({
-            ...prev,
-            address: `${road}, ${city}`,
-            coordinates: { lat, lng },
-          }));
-        }
-      }
+      const geoResult = await reverseGeocodeCoordinates(lat, lng);
+      setFormData((prev) => ({
+        ...prev,
+        address: geoResult.formattedAddress,
+        landmark: geoResult.landmark,
+        coordinates: { lat, lng },
+      }));
     } catch {
       // ignore
     }
@@ -356,6 +382,8 @@ export const LocationPage: React.FC<LocationPageProps> = ({
 
   const getTagIcon = (tag: string) => {
     switch (tag) {
+      case 'Current Location':
+        return <LocateFixed className="w-4 h-4 text-emerald-600 animate-pulse" />;
       case 'Home':
         return <Home className="w-4 h-4 text-emerald-600" />;
       case 'Work':
@@ -430,15 +458,49 @@ export const LocationPage: React.FC<LocationPageProps> = ({
         {/* ----------------------------------------------------------- */}
         {/* 2. SEARCH & GPS QUICK LINK                                  */}
         {/* ----------------------------------------------------------- */}
-        <div className="relative">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search saved addresses (e.g. Home, Koramangala)..."
-            className="w-full bg-white border border-slate-200 rounded-2xl pl-10 pr-4 py-3 text-xs text-slate-900 font-medium shadow-2xs focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition"
-          />
+        <div className="space-y-3">
+          <div className="relative">
+            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search saved addresses (e.g. Home, Koramangala)..."
+              className="w-full bg-white border border-slate-200 rounded-2xl pl-10 pr-4 py-3 text-xs text-slate-900 font-medium shadow-2xs focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition"
+            />
+          </div>
+
+          {/* Quick 1-Tap 'Use Current Location' Card */}
+          <button
+            onClick={handleDetectCurrentLocation}
+            disabled={isLocating}
+            className="w-full bg-white hover:bg-emerald-50/60 border border-emerald-300/80 hover:border-emerald-500 p-3.5 rounded-2xl flex items-center justify-between text-left transition shadow-2xs group cursor-pointer"
+          >
+            <div className="flex items-center gap-3">
+              <div className={`w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 group-hover:scale-105 transition ${isLocating ? 'animate-spin' : ''}`}>
+                <LocateFixed className="w-5 h-5 text-emerald-700" />
+              </div>
+              <div>
+                <div className="text-xs font-black text-slate-900 flex items-center gap-1.5">
+                  <span>Use Current Location</span>
+                  <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-1.5 py-0.5 rounded-md">
+                    GPS
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-500 font-medium">
+                  {isLocating ? 'Acquiring GPS position & resolving address...' : 'Detect & save actual device location for fast delivery'}
+                </p>
+              </div>
+            </div>
+
+            <div className="text-emerald-700 text-xs font-bold shrink-0 flex items-center gap-1 pr-1">
+              {isLocating ? (
+                <span className="text-[11px] text-emerald-600 animate-pulse">Detecting...</span>
+              ) : (
+                <span className="text-xs group-hover:translate-x-0.5 transition">Auto Detect →</span>
+              )}
+            </div>
+          </button>
         </div>
 
         {/* ----------------------------------------------------------- */}

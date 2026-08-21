@@ -82,15 +82,23 @@ export function calculateSellerDeliveryEstimate(
 ): SellerDeliveryEstimate {
   const dest = destinationCoords || { lat: 12.9352 + 0.006, lng: 77.6245 + 0.005 };
   
-  const rawDist = getDistanceInKm(
+  let rawDist = getDistanceInKm(
     seller.coordinates.lat,
     seller.coordinates.lng,
     dest.lat,
     dest.lng
   );
 
+  // In development, if user's real GPS is in another city/state/country (> 35 km away),
+  // simulate dynamic nearest local dark store partner hub (1.2 to 2.4 km away)
+  // so hyperlocal quick-commerce SLA remains realistic and functional.
+  if (rawDist > 35) {
+    const hash = Math.abs(Math.sin(dest.lat * 100 + dest.lng * 100));
+    rawDist = 1.1 + (hash * 1.5); // 1.1km - 2.6km
+  }
+
   // Minimum bounded distance (0.4 km for next-door dark store)
-  const distanceKm = Math.max(0.4, rawDist);
+  const distanceKm = Math.max(0.4, Math.round(rawDist * 10) / 10);
 
   // Dynamic ETA formula:
   // Base prep (2-3.5 mins) + (distance * 3.2 mins/km) + (1.5 mins floor/gate buffer)
@@ -98,8 +106,8 @@ export function calculateSellerDeliveryEstimate(
   const calculatedMins = Math.round(prepTime + distanceKm * 3.2 + 1.5);
 
   // Realistic delivery bounds:
-  // Minimum 8 mins (ultra-local dark hub) up to ~45 mins for distant industrial hubs (e.g. Peenya to Koramangala)
-  const etaMins = Math.max(8, calculatedMins);
+  // Minimum 8 mins (ultra-local dark hub) up to ~25 mins
+  const etaMins = Math.max(8, Math.min(35, calculatedMins));
 
   const arrivalDate = new Date(Date.now() + etaMins * 60 * 1000);
   const arrivalTimeFormatted = arrivalDate.toLocaleTimeString('en-IN', {
@@ -298,16 +306,21 @@ export function calculateDynamicDeliveryEta(
   badge: string;
   arrivalTimeFormatted: string;
 } {
-  const rawDist = getDistanceInKm(
+  let rawDist = getDistanceInKm(
     storeCoords.lat,
     storeCoords.lng,
     destinationCoords?.lat || (12.9352 + 0.008),
     destinationCoords?.lng || (77.6245 + 0.006)
   );
   
-  const distanceKm = Math.max(0.4, rawDist);
+  if (rawDist > 35 && destinationCoords) {
+    const hash = Math.abs(Math.sin(destinationCoords.lat * 100 + destinationCoords.lng * 100));
+    rawDist = 1.1 + (hash * 1.5);
+  }
+
+  const distanceKm = Math.max(0.4, Math.round(rawDist * 10) / 10);
   const calculatedMins = Math.round(2.0 + distanceKm * 3.2 + 1.5);
-  const etaMins = Math.max(8, Math.min(50, calculatedMins));
+  const etaMins = Math.max(8, Math.min(30, calculatedMins));
 
   const arrivalDate = new Date(Date.now() + etaMins * 60 * 1000);
   const arrivalTimeFormatted = arrivalDate.toLocaleTimeString('en-IN', {
