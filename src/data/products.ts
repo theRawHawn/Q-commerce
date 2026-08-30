@@ -31,7 +31,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 12,
-    imageUrl: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=600&auto=format&fit=crop&q=80',
     badge: 'High Demand',
     frequentlyBoughtWith: ['plumb-03', 'plumb-06', 'plumb-05'],
     tags: ['angle valve', 'stop cock', 'plumbing', 'brass', 'geyser', 'washbasin', '1/2 inch', '15mm', 'tap']
@@ -65,7 +65,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 10,
-    imageUrl: 'https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['plumb-01', 'plumb-02', 'plumb-06'],
     tags: ['teflon', 'ptfe', 'thread seal', 'tape', 'leak prevention', 'plumbing tape']
@@ -98,7 +98,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 12,
-    imageUrl: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1542013936693-884638332954?w=600&auto=format&fit=crop&q=80',
     badge: 'High Demand',
     frequentlyBoughtWith: ['plumb-01', 'plumb-03'],
     tags: ['connection pipe', 'hose', 'flexible hose', 'geyser pipe', 'ss braided', '1/2 inch']
@@ -132,7 +132,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 14,
-    imageUrl: 'https://images.unsplash.com/photo-1541888946425-d0fbb18fe2b7?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['plumb-01', 'plumb-05', 'plumb-03'],
     tags: ['cpvc', 'fta', 'adapter', 'brass fitting', 'astral', 'plumbing joint', '3/4 inch']
@@ -165,7 +165,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 11,
-    imageUrl: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['plumb-02', 'plumb-03'],
     tags: ['cpvc solvent', 'solvent cement', 'astral glue', 'pipe glue', 'pvc solution', 'weld cement']
@@ -198,7 +198,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 14,
-    imageUrl: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1590496793929-36417d3117de?w=600&auto=format&fit=crop&q=80',
     badge: 'Pro Choice',
     frequentlyBoughtWith: ['plumb-02', 'plumb-03'],
     tags: ['ball valve', 'main valve', 'upvc valve', 'ashirvad', '1 inch valve', 'stop valve']
@@ -233,7 +233,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 11,
-    imageUrl: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80',
     badge: 'High Demand',
     frequentlyBoughtWith: ['elec-03', 'elec-05', 'elec-06'],
     tags: ['mcb', 'havells', '16a mcb', 'circuit breaker', 'switchgear', 'c curve', 'fuse']
@@ -266,7 +266,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 13,
-    imageUrl: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80',
     badge: 'Pro Choice',
     frequentlyBoughtWith: ['elec-01', 'elec-03'],
     tags: ['dp mcb', 'isolator', 'schneider', '32a mcb', 'main switch', 'double pole']
@@ -299,7 +299,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 9,
-    imageUrl: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1544724569-5f546fd6f2b5?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['elec-01', 'elec-05', 'elec-04'],
     tags: ['wago', 'wire connector', 'lever nut', 'splicing', 'terminal block', 'junction box connector', 'wago 221']
@@ -333,7 +333,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 15,
-    imageUrl: 'https://images.unsplash.com/photo-1544724569-5f546fd6f2b5?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=600&auto=format&fit=crop&q=80',
     badge: 'Pro Choice',
     frequentlyBoughtWith: ['elec-01', 'elec-03', 'elec-05'],
     tags: ['polycab', 'wire', 'copper wire', '2.5 sq mm', 'fr wire', 'electrical cable', 'red wire']
@@ -367,7 +367,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 8,
-    imageUrl: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['elec-01', 'elec-03'],
     tags: ['insulation tape', 'steelgrip', 'electric tape', 'wire tape', 'pvc tape', 'color tape']
@@ -401,7 +401,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 11,
-    imageUrl: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=600&auto=format&fit=crop&q=80',
     badge: 'High Demand',
     frequentlyBoughtWith: ['elec-01', 'elec-04'],
     tags: ['socket', 'anchor roma', '16a socket', 'power socket', 'modular switch', 'panasonic']
@@ -436,7 +436,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 10,
-    imageUrl: 'https://images.unsplash.com/photo-1586864387789-628af9feed72?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1586864387789-628af9feed72?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['fast-02', 'tool-01'],
     tags: ['gitti', 'rawl plug', 'fischer', '8mm plug', 'wall plug', 'nylon anchor', 'concrete plug']
@@ -469,7 +469,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 9,
-    imageUrl: 'https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['fast-01', 'tool-01'],
     tags: ['screws', 'wood screw', 'zinc screw', 'truss head', 'star screw', 'fastener', '35mm screw']
@@ -502,7 +502,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 11,
-    imageUrl: 'https://images.unsplash.com/photo-1586864387789-628af9feed72?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&auto=format&fit=crop&q=80',
     badge: 'Pro Choice',
     frequentlyBoughtWith: ['tool-01', 'fast-01'],
     tags: ['anchor bolt', 'wedge anchor', 'hilti', 'm10 anchor', 'heavy fastener', 'ac bracket bolt']
@@ -537,7 +537,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 11,
-    imageUrl: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600&auto=format&fit=crop&q=80',
     badge: 'High Demand',
     frequentlyBoughtWith: ['adhes-04', 'tool-05'],
     tags: ['pu foam', 'expanding foam', 'spray foam', 'gap filler', 'ac hole sealer', 'fevicol', 'pidilite']
@@ -570,7 +570,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 8,
-    imageUrl: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1513467535987-fd81bc7d62f8?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['plumb-03', 'plumb-01'],
     tags: ['m-seal', 'mseal', 'epoxy putty', 'leak seal', 'waterproof putty', 'pidilite']
@@ -604,7 +604,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 12,
-    imageUrl: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=600&auto=format&fit=crop&q=80',
     badge: 'Pro Choice',
     frequentlyBoughtWith: ['plumb-05', 'tool-05'],
     tags: ['silicone', 'sealant', 'rtv silicone', 'caulk', 'waterproof seal', 'kitchen sink seal', 'dow corning']
@@ -639,7 +639,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 18,
-    imageUrl: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=600&auto=format&fit=crop&q=80',
     badge: 'High Demand',
     frequentlyBoughtWith: ['fast-01', 'fast-03'],
     tags: ['sds bit', 'drill bit', 'masonry bit', 'concrete bit', 'hammer drill bit', 'bosch', '6mm bit', '8mm bit']
@@ -672,7 +672,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 11,
-    imageUrl: 'https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=600&auto=format&fit=crop&q=80',
     badge: 'Pro Choice',
     frequentlyBoughtWith: ['plumb-01', 'plumb-06'],
     tags: ['pliers', 'water pump plier', 'pipe wrench', 'taparia', 'plumbing tool']
@@ -705,7 +705,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 8,
-    imageUrl: 'https://images.unsplash.com/photo-1590496793929-36417d3117de?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1590496793929-36417d3117de?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['adhes-01'],
     tags: ['utility blade', 'knife blade', 'cutter blade', 'sk5', 'snap off blade', 'box cutter']
@@ -738,7 +738,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 18,
-    imageUrl: 'https://images.unsplash.com/photo-1578885136359-16c8bd4d3a8e?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1578885136359-16c8bd4d3a8e?w=600&auto=format&fit=crop&q=80',
     badge: 'High Demand',
     frequentlyBoughtWith: ['tool-01'],
     tags: ['diamond blade', 'cutting disc', 'tile cutter', 'marble blade', '4 inch blade', 'grinder disc']
@@ -774,7 +774,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 12,
-    imageUrl: 'https://images.unsplash.com/photo-1513467535987-fd81bc7d62f8?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1513467535987-fd81bc7d62f8?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['carp-01', 'carp-07'],
     tags: ['wood glue', 'fevicol', 'fevicol sh', 'pidilite', 'carpentry', 'wood', 'glue']
@@ -807,7 +807,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 13,
-    imageUrl: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=600&auto=format&fit=crop&q=80',
     badge: 'High Demand',
     frequentlyBoughtWith: ['carp-07', 'adhes-04'],
     tags: ['hinges', 'cabinet hinges', 'carpentry', 'soft close', 'hydraulic hinge', 'cup hinge', 'furniture fitting', 'hafele']
@@ -840,7 +840,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 12,
-    imageUrl: 'https://images.unsplash.com/photo-1558002038-1055907df827?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1558002038-1055907df827?w=600&auto=format&fit=crop&q=80',
     badge: 'Pro Choice',
     frequentlyBoughtWith: ['carp-04', 'carp-06', 'carp-07'],
     tags: ['door handle', 'handle', 'locks', 'godrej lock', 'mortise lock', 'door lock', 'carpentry', 'handle set']
@@ -873,7 +873,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 10,
-    imageUrl: 'https://images.unsplash.com/photo-1586864387789-628af9feed72?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1586864387789-628af9feed72?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['carp-03', 'carp-06'],
     tags: ['door stopper', 'stopper', 'door buffer', 'carpentry', 'wall protector', 'dorset']
@@ -906,7 +906,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 11,
-    imageUrl: 'https://images.unsplash.com/photo-1510511459019-5dda7724fd87?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1510511459019-5dda7724fd87?w=600&auto=format&fit=crop&q=80',
     badge: 'High Demand',
     frequentlyBoughtWith: ['carp-06', 'carp-03'],
     tags: ['locks', 'lock', 'padlock', 'godrej lock', 'navtal', 'brass lock', 'carpentry', 'security lock']
@@ -939,7 +939,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 10,
-    imageUrl: 'https://images.unsplash.com/photo-1558002038-1055907df827?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1558002038-1055907df827?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['carp-03', 'carp-04'],
     tags: ['tower bolt', 'latch', 'door latch', 'bolt', 'carpentry', 'godrej', 'door bolt']
@@ -972,7 +972,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 9,
-    imageUrl: 'https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['carp-01', 'carp-02', 'carp-08'],
     tags: ['screws', 'wood screws', 'carpentry screws', 'brass screws', 'star screws', 'carpentry', 'wood fastener']
@@ -1005,7 +1005,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 12,
-    imageUrl: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=600&auto=format&fit=crop&q=80',
     badge: 'Pro Choice',
     frequentlyBoughtWith: ['carp-07', 'carp-01', 'carp-02'],
     tags: ['drawer slides', 'telescopic channels', 'drawer channel', 'soft close slide', 'carpentry', 'godrej ebco']
@@ -1040,7 +1040,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 14,
-    imageUrl: 'https://images.unsplash.com/photo-1584744982491-665216d95f8b?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1584744982491-665216d95f8b?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['tool-01', 'tool-04'],
     tags: ['safety glasses', 'goggles', 'eye protection', '3m', 'grinding glasses']
@@ -1073,7 +1073,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 14,
-    imageUrl: 'https://images.unsplash.com/photo-1603555501671-8f96b3fce8e4?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1603555501671-8f96b3fce8e4?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['safe-01', 'tool-05'],
     tags: ['gloves', 'work gloves', 'nitrile gloves', 'safety gloves', 'grip gloves']
@@ -1108,7 +1108,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 10,
-    imageUrl: 'https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?w=600&auto=format&fit=crop&q=80',
     badge: 'High Demand',
     frequentlyBoughtWith: ['cutter-02', 'disc-02'],
     tags: ['screw', 'screws', 'self drilling', 'hex screw', 'roofing screw', 'metal screw', 'fastener']
@@ -1141,7 +1141,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 10,
-    imageUrl: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['screw-03', 'disc-01'],
     tags: ['drywall screw', 'screws', 'gypsum screw', 'black screw', 'bugle head', 'ceiling screw']
@@ -1174,7 +1174,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 11,
-    imageUrl: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1586864387789-628af9feed72?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['screw-01', 'tool-01'],
     tags: ['wall plug', 'screws', 'fischer plug', 'gitti', 'anchor plug', 'rawl plug', 'concrete screw']
@@ -1209,7 +1209,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 12,
-    imageUrl: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=600&auto=format&fit=crop&q=80',
     badge: 'Pro Choice',
     frequentlyBoughtWith: ['disc-01', 'disc-04', 'safe-01'],
     tags: ['tile cutter', 'marble cutter', 'cutting machine', 'tile iron cutter', 'bosch cutter', 'power tool', 'tile machine']
@@ -1242,7 +1242,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 12,
-    imageUrl: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=600&auto=format&fit=crop&q=80',
     badge: 'High Demand',
     frequentlyBoughtWith: ['disc-02', 'safe-01', 'screw-01'],
     tags: ['angle grinder', 'grinder machine', 'iron cutter', 'metal cutter machine', 'dewalt', 'cutting machine']
@@ -1275,7 +1275,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 15,
-    imageUrl: 'https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=600&auto=format&fit=crop&q=80',
     badge: 'Pro Choice',
     frequentlyBoughtWith: ['disc-02', 'safe-01'],
     tags: ['iron cutter', 'cut off machine', 'chop saw', 'metal cutting machine', 'rebar cutter', 'iron cutting machine']
@@ -1310,7 +1310,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 10,
-    imageUrl: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1578885136359-16c8bd4d3a8e?w=600&auto=format&fit=crop&q=80',
     badge: 'High Demand',
     frequentlyBoughtWith: ['cutter-01', 'safe-01'],
     tags: ['tile blade', 'diamond disc', 'marble blade', 'round cutter part', 'cutting disc', 'round blade', '4 inch blade', 'disc']
@@ -1343,7 +1343,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 10,
-    imageUrl: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['cutter-02', 'screw-01'],
     tags: ['iron cutting disc', 'metal cut off wheel', 'round cutting part', '4 inch disc', 'grinding disc', 'iron cutter blade', 'disc']
@@ -1376,7 +1376,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 11,
-    imageUrl: 'https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?w=600&auto=format&fit=crop&q=80',
     badge: 'Pro Choice',
     frequentlyBoughtWith: ['cutter-01', 'safe-01'],
     tags: ['wood blade', 'circular saw blade', 'round cutting part', 'tct blade', 'plywood cutter', 'cutting disc', 'disc']
@@ -1409,7 +1409,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 11,
-    imageUrl: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=600&auto=format&fit=crop&q=80',
     badge: 'High Demand',
     frequentlyBoughtWith: ['cutter-01', 'safe-01'],
     tags: ['concrete disc', 'diamond blade', 'round cutting part', '5 inch disc', 'masonry blade', 'wall cutter blade', 'disc']
@@ -1446,7 +1446,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 10,
-    imageUrl: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600&auto=format&fit=crop&q=80',
     badge: 'High Demand',
     frequentlyBoughtWith: ['switch-01', 'elec-03', 'screws-01'],
     tags: ['led tubelight', 'tubelight', 'tube light', 'batten', 'philips', '20w', 'light', 'cool daylight', 'bulb', 'lighting']
@@ -1479,7 +1479,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 10,
-    imageUrl: 'https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['light-01', 'switch-01'],
     tags: ['led bulb', 'bulb', 'bulbs', 'wipro', '9w', 'b22', 'light', 'white bulb', 'lighting']
@@ -1512,7 +1512,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 12,
-    imageUrl: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&auto=format&fit=crop&q=80',
     badge: 'High Demand',
     frequentlyBoughtWith: ['elec-03', 'switch-04'],
     tags: ['panel light', 'false ceiling light', 'downlight', 'havells', '12w', 'recessed light', 'lighting']
@@ -1545,7 +1545,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 10,
-    imageUrl: 'https://images.unsplash.com/photo-1540932239986-30128078f3c5?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1540932239986-30128078f3c5?w=600&auto=format&fit=crop&q=80',
     badge: 'Pro Choice',
     frequentlyBoughtWith: ['light-01', 'light-02'],
     tags: ['t-bulb', 't bulb', 'swivel light', 'led bulb', 'crompton', '15w', 'adjustable light', 'lighting']
@@ -1582,7 +1582,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 14,
-    imageUrl: 'https://images.unsplash.com/photo-1618220179428-22790b461013?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1618220179428-22790b461013?w=600&auto=format&fit=crop&q=80',
     badge: 'High Demand',
     frequentlyBoughtWith: ['fan-04', 'switch-01', 'elec-03'],
     tags: ['ceiling fan', 'sieling fan', 'fan', 'atomberg', 'bldc fan', 'remote fan', '1200mm', 'fans', 'cooling']
@@ -1615,7 +1615,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 12,
-    imageUrl: 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['fan-04', 'switch-01'],
     tags: ['ceiling fan', 'sieling fan', 'fan', 'crompton', 'high speed fan', '3 blade fan', 'fans']
@@ -1648,7 +1648,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 10,
-    imageUrl: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=600&auto=format&fit=crop&q=80',
     badge: 'High Demand',
     frequentlyBoughtWith: ['switch-01', 'elec-03'],
     tags: ['exhaust fan', 'ventilation fan', 'kitchen exhaust', 'bathroom exhaust', 'havells', 'fan', 'fans']
@@ -1681,7 +1681,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 10,
-    imageUrl: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['fan-01', 'fan-02', 'switch-01'],
     tags: ['fan regulator', 'regulator', 'anchor roma', 'speed controller', 'hum free regulator', 'fan switch', 'fans']
@@ -1718,7 +1718,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 10,
-    imageUrl: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['switch-02', 'switch-04', 'elec-03'],
     tags: ['switch', 'buttons', 'button', 'modular switch', 'anchor switch', '6a switch', 'light switch', 'switches', 'roma']
@@ -1751,7 +1751,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 10,
-    imageUrl: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80',
     badge: 'High Demand',
     frequentlyBoughtWith: ['switch-01', 'switch-05', 'elec-01'],
     tags: ['socket', 'power socket', '16a socket', 'plug point', 'schneider', 'ac socket', 'switches']
@@ -1784,7 +1784,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 12,
-    imageUrl: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=600&auto=format&fit=crop&q=80',
     badge: 'Pro Choice',
     frequentlyBoughtWith: ['switch-01', 'switch-04'],
     tags: ['bell push', 'doorbell button', 'call bell button', 'button', 'buttons', 'legrand', 'switch', 'switches']
@@ -1817,7 +1817,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 10,
-    imageUrl: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['switch-01', 'switch-02', 'fan-04'],
     tags: ['switch plate', 'modular plate', 'roma plate', '6 module plate', 'gang box cover', 'switches']
@@ -1850,7 +1850,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 10,
-    imageUrl: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80',
     badge: 'High Demand',
     frequentlyBoughtWith: ['elec-01', 'switch-02'],
     tags: ['dp switch', '32a switch', 'geyser switch', 'ac switch', 'double pole', 'gm modular', 'button', 'switches']
@@ -1887,7 +1887,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 10,
-    imageUrl: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&auto=format&fit=crop&q=80',
     badge: 'High Demand',
     frequentlyBoughtWith: ['plumb-01', 'plumb-03', 'bath-03'],
     tags: ['health faucet', 'jet spray', 'bathroom fittings', 'toilet spray', 'bidet sprayer', 'hose', 'bathroom', 'sanitary']
@@ -1920,7 +1920,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 12,
-    imageUrl: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=600&auto=format&fit=crop&q=80',
     badge: 'Pro Choice',
     frequentlyBoughtWith: ['plumb-03', 'bath-01'],
     tags: ['shower head', 'overhead shower', 'rain shower', 'shower arm', 'bathroom fittings', 'hindware', 'bathroom']
@@ -1953,7 +1953,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 10,
-    imageUrl: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=600&auto=format&fit=crop&q=80',
     badge: 'High Demand',
     frequentlyBoughtWith: ['bath-01', 'plumb-06', 'plumb-03'],
     tags: ['2 in 1 angle valve', 'two way tap', 'dual valve', 'bathroom tap', 'angle valve', 'bathroom fittings', 'bathroom']
@@ -1986,7 +1986,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 12,
-    imageUrl: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['screws-01', 'bath-01'],
     tags: ['towel rod', 'towel bar', 'bathroom accessories', 'ss 304', 'bathroom fittings', 'plantex', 'bathroom']
@@ -2019,7 +2019,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 10,
-    imageUrl: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=600&auto=format&fit=crop&q=80',
     badge: 'High Demand',
     frequentlyBoughtWith: ['plumb-06', 'plumb-01', 'plumb-03'],
     tags: ['pillar cock', 'washbasin tap', 'basin tap', 'cera', 'bathroom tap', 'bathroom fittings', 'bathroom']
@@ -2056,7 +2056,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 10,
-    imageUrl: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&auto=format&fit=crop&q=80',
     badge: 'High Demand',
     frequentlyBoughtWith: ['kitch-02', 'kitch-03', 'plumb-03'],
     tags: ['kitchen tap', 'sink tap', 'sink cock', 'flexible faucet', 'kitchen fittings', 'kitchen faucet', 'kitchen', 'sink']
@@ -2089,7 +2089,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 12,
-    imageUrl: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['kitch-03', 'kitch-01', 'adhes-01'],
     tags: ['sink coupling', 'waste coupling', 'sink drainer', 'kitchen sink fitting', 'kitchen fittings', 'drain', 'kitchen']
@@ -2122,7 +2122,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 10,
-    imageUrl: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['kitch-02', 'adhes-01'],
     tags: ['waste pipe', 'sink pipe', 'flexible drain pipe', 'sink waste', 'kitchen fittings', 'kitchen', 'drain']
@@ -2155,7 +2155,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 10,
-    imageUrl: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=600&auto=format&fit=crop&q=80',
     badge: 'Pro Choice',
     frequentlyBoughtWith: ['plumb-03', 'kitch-01'],
     tags: ['ro valve', 'water purifier valve', 'diverter valve', '1/4 inch tube', 'kitchen fittings', 'kitchen']
@@ -2188,7 +2188,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 10,
-    imageUrl: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=500&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=600&auto=format&fit=crop&q=80',
     badge: 'High Demand',
     frequentlyBoughtWith: ['plumb-03', 'kitch-02'],
     tags: ['kitchen tap', 'bib cock', 'long body tap', 'sink tap', 'kitchen fittings', 'brass tap', 'kitchen']
