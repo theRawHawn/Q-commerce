@@ -12,6 +12,15 @@ import {
 } from 'lucide-react';
 import { EMERGENCY_KITS } from '../data/products';
 import { HardwareProduct } from '../types';
+import plumbingImg from '../assets/images/plumbing_repair_kit_1788103433567.jpg';
+import electricalImg from '../assets/images/electrical_repair_kit_1788103445877.jpg';
+import mountingImg from '../assets/images/wall_mounting_kit_1788103476205.jpg';
+
+const KIT_IMAGE_MAP: Record<string, string> = {
+  'kit-plumb-01': plumbingImg,
+  'kit-elec-01': electricalImg,
+  'kit-fast-01': mountingImg
+};
 
 interface EmergencyKitsSectionProps {
   products: HardwareProduct[];
@@ -57,16 +66,36 @@ export const EmergencyKitsSection: React.FC<EmergencyKitsSectionProps> = ({
               className="bg-white border border-slate-200/90 hover:border-emerald-500/50 rounded-2xl p-4 flex flex-col justify-between transition-all hover:shadow-md shadow-xs group"
             >
               <div>
-                {/* Top Badge Row */}
-                <div className="flex items-center justify-between mb-2">
-                  <span className="bg-slate-100 text-slate-800 text-[10px] font-black uppercase px-2 py-0.5 rounded-md">
-                    {kit.trade}
-                  </span>
-                  <span className="flex items-center gap-1 text-emerald-800 font-extrabold text-[11px] bg-emerald-100 px-2 py-0.5 rounded-full">
-                    <Zap className="w-3 h-3 fill-emerald-700 text-emerald-700" />
-                    {deliveryEtaMins} Mins
-                  </span>
-                </div>
+                {/* Kit Photo Banner */}
+                {KIT_IMAGE_MAP[kit.id] && (
+                  <div className="w-full aspect-[16/9] rounded-xl overflow-hidden mb-3 bg-slate-100 border border-slate-200/60 relative">
+                    <img 
+                      src={KIT_IMAGE_MAP[kit.id]} 
+                      alt={kit.title}
+                      referrerPolicy="no-referrer"
+                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="absolute top-2 left-2 bg-slate-900/80 backdrop-blur-xs text-white text-[10px] font-black uppercase px-2 py-0.5 rounded-md">
+                      {kit.trade}
+                    </div>
+                    <div className="absolute top-2 right-2 flex items-center gap-1 text-emerald-800 font-extrabold text-[11px] bg-white/95 backdrop-blur-xs px-2 py-0.5 rounded-full shadow-2xs">
+                      <Zap className="w-3 h-3 fill-emerald-700 text-emerald-700" />
+                      {deliveryEtaMins} Mins
+                    </div>
+                  </div>
+                )}
+
+                {!KIT_IMAGE_MAP[kit.id] && (
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="bg-slate-100 text-slate-800 text-[10px] font-black uppercase px-2 py-0.5 rounded-md">
+                      {kit.trade}
+                    </span>
+                    <span className="flex items-center gap-1 text-emerald-800 font-extrabold text-[11px] bg-emerald-100 px-2 py-0.5 rounded-full">
+                      <Zap className="w-3 h-3 fill-emerald-700 text-emerald-700" />
+                      {deliveryEtaMins} Mins
+                    </span>
+                  </div>
+                )}
 
                 <h3 className="text-sm font-black text-slate-900 group-hover:text-emerald-700 transition">
                   {kit.title}

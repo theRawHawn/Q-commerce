@@ -121,18 +121,43 @@ const DEFAULT_CUSTOMER_PROFILE: CustomerProfile = {
 };
 
 export default function App() {
-  // Dynamic Catalog State
+  // Dynamic Catalog State (Sync latest images and definitions from INITIAL_PRODUCTS)
   const [products, setProducts] = useState<HardwareProduct[]>(() => {
     try {
+      const CATALOG_VERSION = 'v2_updated_photos_2026';
+      const storedVersion = localStorage.getItem('quick_hardware_catalog_version');
       const saved = localStorage.getItem('quick_hardware_products');
-      if (saved) {
+      
+      const initialMap = new Map(INITIAL_PRODUCTS.map(p => [p.id, p]));
+
+      if (saved && storedVersion === CATALOG_VERSION) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed)) {
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const merged = parsed.map((p: HardwareProduct) => {
+            const initial = initialMap.get(p.id);
+            if (initial) {
+              return {
+                ...initial,
+                ...p,
+                imageUrl: initial.imageUrl, // Always enforce the latest accurate photo
+                name: initial.name,
+                category: initial.category,
+                subcategory: initial.subcategory,
+                description: initial.description,
+                specs: initial.specs
+              };
+            }
+            return p;
+          });
           const existingIds = new Set(parsed.map((p: HardwareProduct) => p.id));
           const missing = INITIAL_PRODUCTS.filter(p => !existingIds.has(p.id));
-          return missing.length > 0 ? [...parsed, ...missing] : parsed;
+          return missing.length > 0 ? [...merged, ...missing] : merged;
         }
       }
+      
+      // If version is missing or old, reset catalog from INITIAL_PRODUCTS
+      localStorage.setItem('quick_hardware_catalog_version', CATALOG_VERSION);
+      localStorage.setItem('quick_hardware_products', JSON.stringify(INITIAL_PRODUCTS));
       return INITIAL_PRODUCTS;
     } catch {
       return INITIAL_PRODUCTS;

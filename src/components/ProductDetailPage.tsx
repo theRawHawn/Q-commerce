@@ -93,12 +93,13 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
         {/* Main Product Info Card */}
         <div className="bg-white md:rounded-2xl border-b md:border border-slate-200 shadow-2xs overflow-hidden">
           {/* Large Image */}
-          <div className="w-full aspect-[4/3] sm:aspect-[16/9] md:aspect-[2/1] bg-slate-50 relative flex items-center justify-center p-4">
+          <div className="w-full aspect-[4/3] sm:aspect-[16/9] md:aspect-[2/1] bg-slate-100 relative flex items-center justify-center p-0 overflow-hidden">
             {product.imageUrl ? (
               <img 
                 src={product.imageUrl} 
                 alt={product.name} 
-                className="w-full h-full object-contain mix-blend-multiply"
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover object-center"
               />
             ) : (
               <Boxes className="w-20 h-20 text-slate-300" />

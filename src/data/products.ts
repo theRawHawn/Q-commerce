@@ -1073,7 +1073,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 14,
-    imageUrl: 'https://images.unsplash.com/photo-1603555501671-8f96b3fce8e4?w=600&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1584744982491-665216d95f8b?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['safe-01', 'tool-05'],
     tags: ['gloves', 'work gloves', 'nitrile gloves', 'safety gloves', 'grip gloves']
@@ -1275,7 +1275,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 15,
-    imageUrl: 'https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=600&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=600&auto=format&fit=crop&q=80',
     badge: 'Pro Choice',
     frequentlyBoughtWith: ['disc-02', 'safe-01'],
     tags: ['iron cutter', 'cut off machine', 'chop saw', 'metal cutting machine', 'rebar cutter', 'iron cutting machine']
@@ -1615,7 +1615,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 12,
-    imageUrl: 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=600&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1618220179428-22790b461013?w=600&auto=format&fit=crop&q=80',
     badge: 'Delivery Essential',
     frequentlyBoughtWith: ['fan-04', 'switch-01'],
     tags: ['ceiling fan', 'sieling fan', 'fan', 'crompton', 'high speed fan', '3 blade fan', 'fans']
@@ -1920,7 +1920,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     isGstRegistered: true,
     gstRatePercent: 18,
     deliveryTimeMins: 12,
-    imageUrl: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=600&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&auto=format&fit=crop&q=80',
     badge: 'Pro Choice',
     frequentlyBoughtWith: ['plumb-03', 'bath-01'],
     tags: ['shower head', 'overhead shower', 'rain shower', 'shower arm', 'bathroom fittings', 'hindware', 'bathroom']
