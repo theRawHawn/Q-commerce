@@ -8,9 +8,17 @@ import orderRoutes from "./server/routes/orders";
 import paymentRoutes from "./server/routes/payment";
 import profileRoutes from "./server/routes/profile";
 import routingRoutes from "./server/routes/routing";
+import strixAuditRoutes from "./server/routes/strixAudit";
 import { createRateLimiter, sanitizeString } from "./server/security";
 
 dotenv.config();
+
+// Prototype pollution prevention: secure Object prototype
+try {
+  Object.freeze(Object.prototype);
+} catch (e) {
+  // Graceful fallback in environments with strict descriptors
+}
 
 const app = express();
 const PORT = 3000;
@@ -85,6 +93,8 @@ app.use("/api/checkout", orderRoutes); // /api/checkout/calculate maps to orderR
 app.use("/api/payment", paymentRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/routing", routingRoutes);
+app.use("/api/vulnerable", strixAuditRoutes);
+app.use("/api/security", strixAuditRoutes);
 
 // Server-side Gemini AI setup
 let aiClient: GoogleGenAI | null = null;

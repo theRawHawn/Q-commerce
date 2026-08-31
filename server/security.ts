@@ -301,3 +301,210 @@ export function verifyPaymentSignature(orderId: string, amount: number, timestam
     return false;
   }
 }
+
+// Webhook HMAC Verification (Razorpay / Stripe / Custom Gateways)
+export function verifyWebhookHmac(rawBody: string | Buffer, signatureHeader: string | undefined, secretKey: string = PAYMENT_SECRET): boolean {
+  if (!signatureHeader || typeof signatureHeader !== 'string') return false;
+  try {
+    const bodyStr = typeof rawBody === 'string' ? rawBody : JSON.stringify(rawBody);
+    const expected = crypto.createHmac('sha256', secretKey).update(bodyStr).digest('hex');
+    const signatureBuffer = Buffer.from(signatureHeader);
+    const expectedBuffer = Buffer.from(expected);
+    if (signatureBuffer.length !== expectedBuffer.length) return false;
+    return crypto.timingSafeEqual(signatureBuffer, expectedBuffer);
+  } catch {
+    return false;
+  }
+}
+
+// ==========================================
+// 7. ROLE-BASED ACCESS CONTROL (RBAC)
+// ==========================================
+export function requireRole(allowedRoles: string[]) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    if (!req.user) {
+      return res.status(401).json({
+        error: 'UNAUTHORIZED',
+        message: 'Authentication is required.'
+      });
+    }
+
+    const userRole = (req.user.role || 'customer').toUpperCase();
+    const normalizedAllowed = allowedRoles.map(r => r.toUpperCase());
+
+    if (!normalizedAllowed.includes(userRole)) {
+      return res.status(403).json({
+        error: 'FORBIDDEN_INSUFFICIENT_PERMISSIONS',
+        message: `Role '${req.user.role}' is not authorized to access this resource. Required: ${allowedRoles.join(', ')}`
+      });
+    }
+
+    next();
+  };
+}
+
+// ==========================================
+// 8. PROTOTYPE POLLUTION DEFENSE (CWE-1321)
+// ==========================================
+const DANGEROUS_PROTO_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
+
+export function safeDeepMerge<T = any>(target: any, source: any): T {
+  if (!source || typeof source !== 'object') return target;
+  if (!target || typeof target !== 'object') target = Object.create(null);
+
+  for (const key of Object.keys(source)) {
+    if (DANGEROUS_PROTO_KEYS.has(key)) {
+      // Reject dangerous prototype pollution keys
+      continue;
+    }
+    const val = source[key];
+    if (val && typeof val === 'object' && !Array.isArray(val)) {
+      if (!target[key] || typeof target[key] !== 'object' || Array.isArray(target[key])) {
+        target[key] = Object.create(null);
+      }
+      safeDeepMerge(target[key], val);
+    } else {
+      target[key] = val;
+    }
+  }
+  return target;
+}
+
+export function sanitizeNoSqlObject(obj: any): any {
+  if (obj === null || obj === undefined) return obj;
+  if (typeof obj !== 'object') return obj;
+  if (Array.isArray(obj)) return obj.map(sanitizeNoSqlObject);
+
+  const clean: Record<string, any> = Object.create(null);
+  for (const [key, val] of Object.entries(obj)) {
+    if (DANGEROUS_PROTO_KEYS.has(key) || key.startsWith('$') || key.includes('.')) {
+      // Strip NoSQL operators like $ne, $gt, $regex and prototype keys
+      continue;
+    }
+    clean[key] = sanitizeNoSqlObject(val);
+  }
+  return clean;
+}
+
+// ==========================================
+// 9. SSRF & PRIVATE IP BLOCKLIST (CWE-918)
+// ==========================================
+export function isPrivateOrReservedIp(ip: string): boolean {
+  if (!ip || typeof ip !== 'string') return true;
+  const cleanIp = ip.trim();
+
+  // IPv6 loopback
+  if (cleanIp === '::1' || cleanIp === '::' || cleanIp.startsWith('fe80:')) return true;
+
+  // IPv4 checks
+  const parts = cleanIp.split('.').map(p => parseInt(p, 10));
+  if (parts.length !== 4 || parts.some(isNaN)) return true;
+
+  const [a, b, c, d] = parts;
+
+  // 127.0.0.0/8 (Loopback)
+  if (a === 127) return true;
+  // 10.0.0.0/8 (RFC 1918 Private)
+  if (a === 10) return true;
+  // 172.16.0.0/12 (RFC 1918 Private)
+  if (a === 172 && b >= 16 && b <= 31) return true;
+  // 192.168.0.0/16 (RFC 1918 Private)
+  if (a === 192 && b === 168) return true;
+  // 169.254.0.0/16 (Link-local / Cloud IMDS metadata 169.254.169.254)
+  if (a === 169 && b === 254) return true;
+  // 0.0.0.0/8 (Current network)
+  if (a === 0) return true;
+  // 224.0.0.0/4 (Multicast) & 240.0.0.0/4 (Reserved)
+  if (a >= 224) return true;
+
+  return false;
+}
+
+export function validateSafeUrl(urlStr: string): { valid: boolean; error?: string; url?: URL } {
+  if (!urlStr || typeof urlStr !== 'string') {
+    return { valid: false, error: 'URL string is required' };
+  }
+
+  try {
+    const parsed = new URL(urlStr);
+
+    // Only HTTP and HTTPS
+    if (!['http:', 'https:'].includes(parsed.protocol)) {
+      return { valid: false, error: 'Invalid URL scheme. Only HTTP/HTTPS allowed.' };
+    }
+
+    const host = parsed.hostname.toLowerCase();
+
+    // Block common internal hostnames
+    if (
+      host === 'localhost' ||
+      host.endsWith('.localhost') ||
+      host.endsWith('.local') ||
+      host.endsWith('.internal') ||
+      host === '169.254.169.254' ||
+      host === 'instance-data' ||
+      host === 'metadata.google.internal'
+    ) {
+      return { valid: false, error: 'Access to internal or cloud metadata endpoints is prohibited.' };
+    }
+
+    // Direct IP checks
+    if (/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(host)) {
+      if (isPrivateOrReservedIp(host)) {
+        return { valid: false, error: 'Access to private or link-local IP addresses is prohibited.' };
+      }
+    }
+
+    return { valid: true, url: parsed };
+  } catch (err: any) {
+    return { valid: false, error: 'Malformed URL provided.' };
+  }
+}
+
+// ==========================================
+// 10. PATH TRAVERSAL & ARCHIVE BOUNDARY (CWE-22)
+// ==========================================
+export function isSafeChildPath(baseDirectory: string, userPath: string): boolean {
+  if (!baseDirectory || !userPath) return false;
+  const path = require('path');
+  const resolvedBase = path.resolve(baseDirectory);
+  const resolvedTarget = path.resolve(resolvedBase, path.basename(userPath));
+  return resolvedTarget.startsWith(resolvedBase);
+}
+
+// ==========================================
+// 11. OWASP LLM GUARDRAILS (LLM01, LLM06, LLM08)
+// ==========================================
+const PROMPT_INJECTION_PATTERNS = [
+  /ignore\s+(all\s+)?(prior|previous)\s+instructions/i,
+  /system\s*override/i,
+  /you\s+are\s+now\s+(superadmin|admin|root|unrestricted)/i,
+  /operating\s+in\s+superadmin\s+mode/i,
+  /reveal\s+(system\s+prompt|secret|api_key|token)/i,
+  /repeat\s+the\s+exact.*words\s+above/i,
+  /emergency\s+supervisor\s+override/i
+];
+
+export function detectPromptInjection(input: string): { isInjection: boolean; reason?: string } {
+  if (!input || typeof input !== 'string') return { isInjection: false };
+
+  for (const pattern of PROMPT_INJECTION_PATTERNS) {
+    if (pattern.test(input)) {
+      return {
+        isInjection: true,
+        reason: 'Input contains forbidden prompt injection / jailbreak patterns.'
+      };
+    }
+  }
+  return { isInjection: false };
+}
+
+export function scrubSensitiveTokens(text: string): string {
+  if (!text || typeof text !== 'string') return text;
+  return text
+    .replace(/sk-[a-zA-Z0-9_-]{20,}/g, '[REDACTED_SECRET]')
+    .replace(/ghp_[a-zA-Z0-9]{30,}/g, '[REDACTED_TOKEN]')
+    .replace(/SECRET_[A-Z0-9_]+/g, '[REDACTED_CONFIG]')
+    .replace(/ASIA[A-Z0-9]{16}/g, '[REDACTED_IAM_KEY]');
+}
+
